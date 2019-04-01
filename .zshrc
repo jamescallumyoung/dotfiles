@@ -50,7 +50,7 @@ alias vi="/usr/local/bin/nvim"
 export HISTCONTROL=ignorespace
 
 alias doco="docker-compose"
-alias docop="doco -f docker-compose.test.yml up -d db"
+alias docop="doco -f docker-compose.local.yml up -d db"
 alias docod="doco down"
 
 # Aliases for cal, ncal, calendar
@@ -76,6 +76,8 @@ export PATH=$PATH:$GOPATH/bin
 
 # Node.js
 export NPM_TOKEN="1a280e27743eec90df78071e514ddd119f5dc78abc10d718f493d82908f21d33"
+alias lintjs="semistandard --verbose | snazzy"
+alias burnthemall="rm -rf node_modules package-lock.json"
 
 # Get IP addresses
 function ipg() { # global ip 
