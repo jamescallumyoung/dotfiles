@@ -106,6 +106,9 @@ alias trans="trans -e bing -t en"
 # Todo.sh
 alias todo="todo.sh"
 
+# twtxt
+alias twtxt="twtxt -c .twtxt/conf"
+
 # Git
 #alias gb="git branch -a"
 alias gf="echo fetching... && git fetch --prune && gb"
