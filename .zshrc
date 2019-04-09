@@ -134,6 +134,11 @@ jira() {
   fi
 }
 
+# Shortcut for opening swagger2-ui
+function swagger-ui () {
+  open "/Users/jamesyoung/Repos/swagger-ui-2/dist/index.html"
+}
+
 # opendb / cfdb
 function opendb () {
   echo "Looking for service matching: $1"
@@ -153,7 +158,7 @@ function opendb () {
 }
 
 function openqr() {
-  temp_file="$(mktemp).png"
+  temp_file="$(mktemp -d)qr.png"
   qrencode -l H -s 5 -o $temp_file "$1" 
   open $temp_file
 }
