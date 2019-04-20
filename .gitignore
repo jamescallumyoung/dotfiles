@@ -1,4 +1,4 @@
-*
-*/*
-*/**
 .cfg
+
+*.zwc
+**/.zcompdump
