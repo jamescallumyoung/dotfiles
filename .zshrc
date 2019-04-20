@@ -1,3 +1,6 @@
+# dotfile versioning
+alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
+
 ## ZSH STUFF
 
 # Path to the oh-my-zsh installation.
