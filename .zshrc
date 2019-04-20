@@ -43,15 +43,20 @@ export PATH="$HOME/.cargo/bin:$PATH"
 alias zshconf="edit ~/.zshrc"
 
 # Default editors
-export EDITOR="vim"
-export CVSEDITOR="vim"
-export SVN_EDITOR="vim"
-alias edit="/usr/local/bin/nvim"
-alias vim="/usr/local/bin/nvim"
-alias vi="/usr/local/bin/nvim"
+edit() {
+  if hash nvim 2>/dev/null; then
+    nvim "$@"
+  elif hash vim 2>/dev/null; then
+    vim "$@"
+  else
+    vi "$@"
+  fi
+}
+export EDITOR="nvim"
 
 export HISTCONTROL=ignorespace
 
+# Docker
 alias doco="docker-compose"
 alias docop="doco -f docker-compose.local.yml up -d db"
 alias docod="doco down"
@@ -95,16 +100,9 @@ function onport() {
    lsof -nP -i4TCP:"$1" | grep LISTEN
 }
 
-# Get Unix Timestamp, "YYYY-mm-DDTHHMMSS", and "YYYYmmDD-HHMMSS-msg"
-alias timestamp="echo $(date +%s)"
-alias datetime="echo $(date +%Y-%m-%dT%H%M%S)"
-
 # Fuck
 eval $(thefuck --alias)
 alias f="fuck"
-
-# Trans
-alias trans="trans -e bing -t en"
 
 # Todo.sh
 alias todo="todo.sh"
@@ -113,22 +111,16 @@ alias todo="todo.sh"
 alias twtxt="twtxt -c .twtxt/conf"
 
 # Git
-#alias gb="git branch -a"
 alias gf="echo fetching... && git fetch --prune && gb"
 alias gfp="echo fetching... && git fetch --prune && gb && git pull"
 alias grmm="git branch --merged | egrep -v '(master|dev)' | xargs git branch -d"
-# alias gcom="git commit -m"
-# alias gdel="git branch -d"
-# alias glog="git log"
-# alias gmerged="git branch --list -a --merged"
-# alias gffd="git branch --merged | egrep -v "(^\*|master|dev)" | xargs git branch -d"
 
 # Node
 n() {
-	NODE_V="node=$(node -v)"
-	NPM_V="npm=$(npm --version)"
-	NVM_V="nvm=$(nvmv)"
-	echo "$NODE_V $NPM_V $NVM_V"
+  NODE_V="node=$(node -v)"
+  NPM_V="npm=$(npm --version)"
+  NVM_V="nvm=$(nvmv)"
+  echo "$NODE_V $NPM_V $NVM_V"
 }
 
 # Shortcut for opening Jira issues
