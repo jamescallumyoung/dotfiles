@@ -7,6 +7,9 @@ source $HOME/.zsh/.antigenrc
 # PATH
 fpath=(/usr/local/share/zsh-completions $fpath)
 export PATH="$HOME/Gists/:$PATH" # add Gists to path
+if [[ "$OSTYPE" == "linux-gnu"* ]]; then # Linux
+  PATH="$HOME/.local/bin:$PATH"
+fi
 
 export HISTCONTROL=ignorespace
 
