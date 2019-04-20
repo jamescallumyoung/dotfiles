@@ -70,7 +70,7 @@ eval $(thefuck --alias)
 alias f="fuck"
 
 # twtxt
-alias twtxt="twtxt -c .twtxt/conf"
+alias twtxt="twtxt -c .config/twtxt/conf"
 
 # Git
 alias gf="echo fetching... && git fetch --prune && gb"

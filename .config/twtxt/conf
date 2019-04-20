@@ -1,0 +1,12 @@
+[twtxt]
+nick = jamesyoung
+twtfile = ~/.twtxt/twtxt.txt
+twturl = https://jamesyoung.ch/twtxt.txt
+disclose_identity = False
+character_limit = 140
+character_warning = 140
+post_tweet_hook = "cd ~/.twtxt && git add twtxt.txt && git commit -m \"tweet\" && git push"
+
+[following]
+twtxt = https://buckket.org/twtxt_news.txt
+
