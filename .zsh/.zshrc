@@ -80,8 +80,10 @@ alias grmm="git branch --merged | egrep -v '(master|dev)' | xargs git branch -d"
 # Python
 alias py="python3"
 
-# Java 
-export JAVA_HOME=$(/usr/libexec/java_home)
+# Java
+if [[ "$OSTYPE" == "darwin"* ]]; then # MacOS
+  export JAVA_HOME=$(/usr/libexec/java_home)
+fi
 
 # Go
 export GOPATH=$HOME/go
