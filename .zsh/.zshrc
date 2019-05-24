@@ -11,7 +11,14 @@ if [[ "$OSTYPE" == "linux-gnu"* ]]; then # Linux
   PATH="$HOME/.local/bin:$PATH"
 fi
 
+unsetopt beep
+
+# History
 export HISTCONTROL=ignorespace
+HISTFILE=~/.histfile
+HISTSIZE=1000
+SAVEHIST=1000
+setopt appendhistory autocd
 
 # Default editors
 edit() {
@@ -104,22 +111,14 @@ function n() {
 # Rust
 export PATH="$HOME/.cargo/bin:$PATH"
 
-##############################################################################3
-########################################################################33333##
-###############################################################################
 
-# Lines configured by zsh-newuser-install
-HISTFILE=~/.histfile
-HISTSIZE=1000
-SAVEHIST=1000
-setopt appendhistory autocd
-unsetopt beep
-# End of lines configured by zsh-newuser-install
+##############################################################################3
+##############################################################################3
+##############################################################################3
+
 # The following lines were added by compinstall
 zstyle :compinstall filename '/Users/jamesyoung/.zshrc'
-
 autoload -Uz compinit
 compinit
 # End of lines added by compinstall
-
 
