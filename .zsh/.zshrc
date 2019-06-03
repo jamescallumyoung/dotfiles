@@ -58,6 +58,9 @@ function onport() {
    lsof -nP -i4TCP:"$1" | grep LISTEN
 }
 
+# Open Hackernews in Lynx
+alias hn="lynx https://news.ycombinator.com/"
+
 ##################################################################
 # APP SPECIFIC ###################################################
 
