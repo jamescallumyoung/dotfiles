@@ -40,6 +40,9 @@ alias la="l -a"
 alias rm="rm -i"
 alias cl="clear"
 
+# Restart gpg-agent
+alias gpg-agent-restart="gpgconf --kill gpg-agent"
+
 ##################################################################
 # UTIL FUNCTIONS #################################################
 
