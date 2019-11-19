@@ -1,0 +1,49 @@
+### Add things to the various PATHs ###
+
+# fpath
+fpath=(/usr/local/share/zsh-completions $fpath) # zsh completions
+
+# PATH
+
+## Mac OS ###################
+#############################
+
+{{ if eq .chezmoi.os "darwin" }}
+
+  # Homebrew
+  PATH="/usr/local/sbin:$PATH"
+
+{{ end }}
+
+## Linux ####################
+#############################
+
+{{ if eq .chezmoi.os "linux" }}
+
+  # ???
+  PATH="$HOME/.local/bin:$PATH"
+
+{{ end }}
+
+## Windows ##################
+#############################
+
+{{ if eq .chezmoi.os "windows" }}
+{{ end }}
+
+## All platforms ############
+#############################
+
+# My Gists / Functions
+PATH="$HOME/Gists/:$PATH"
+
+# Go
+export GOPATH=$HOME/go
+PATH=$PATH:$GOPATH/bi
+
+# Rust
+PATH="$HOME/.cargo/bin:$PATH"
+
+
+export PATH
+

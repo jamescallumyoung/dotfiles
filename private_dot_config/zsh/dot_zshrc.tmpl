@@ -1,0 +1,89 @@
+# dotfile versioning
+alias cfg='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
+
+# Antigen (oh-my-zsh)
+source $HOME/.config/zsh/antigen.zsh # Source Antigen
+source $HOME/.config/zsh/.antigenrc # Apply our Antigen config
+
+# PATH
+source $HOME/.config/zsh/.pathrc
+
+# (Temp) minishift stuff
+
+export MINISHIFT_USERNAME=jamescallumyoung
+export MINISHIFT_PASSWORD='ML8dIb!8u5VLfXisfqv^s8s*<Ma7WfY]4$tg5<I!y,=V0uVcr=1{;,f/~}n*'
+export PATH="/Users/jamesyoung/.minishift/cache/oc/v3.11.141/darwin:$PATH"
+
+unsetopt beep
+
+# History
+export HISTCONTROL=ignorespace
+HISTFILE=~/.histfile
+HISTSIZE=1000
+SAVEHIST=1000
+setopt appendhistory autocd
+
+# Default editors
+export EDITOR="nvim"
+
+# Aliases for builtins
+alias ll="ls -lhF"
+alias lla="ll -a"
+alias l="ls -1"
+alias la="l -a"
+alias rm="rm -i"
+alias cl="clear"
+
+# Restart gpg-agent
+alias gpg-agent-restart="gpgconf --kill gpg-agent"
+
+##################################################################
+# APP SPECIFIC ###################################################
+
+# public-transport-lib
+alias sbb="public-transport-lib"
+
+# calendar
+export CALENDAR_DIR="${HOME}/.calendar"
+
+# todo.sh
+alias todo="todo.sh"
+
+# Docker
+alias doco="docker-compose"
+alias docop="doco -f docker-compose.local.yml up -d db"
+alias docod="doco down"
+
+# Fuck
+eval $(thefuck --alias)
+alias f="fuck"
+
+# twtxt
+alias twtxt="twtxt -c .config/twtxt/conf"
+
+# Git
+alias gf="echo fetching... && git fetch --prune && gb"
+alias gfp="echo fetching... && git fetch --prune && gb && git pull"
+alias grmm="git branch --merged | egrep -v '(master|dev)' | xargs git branch -d"
+
+##################################################################
+# LANG SPECIFIC ##################################################
+
+# Python
+alias py="python3"
+
+# Java
+{{ if eq .chezmoi.os "darwin" }} # MacOS only
+  export JAVA_HOME=$(/usr/libexec/java_home)
+{{ end }}
+
+##############################################################################3
+##############################################################################3
+##############################################################################3
+
+# The following lines were added by compinstall
+zstyle :compinstall filename '/Users/jamesyoung/.zshrc'
+autoload -Uz compinit
+compinit
+# End of lines added by compinstall
+
