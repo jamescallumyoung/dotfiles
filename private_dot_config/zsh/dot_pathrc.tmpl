@@ -22,6 +22,16 @@ fpath=(/usr/local/share/zsh-completions $fpath) # zsh completions
 
   # ???
   PATH="$HOME/.local/bin:$PATH"
+  
+  # for distribution-managed (i.e. apt) normal user programs
+  PATH="/usr/bin:$PATH"
+
+  # for normal user programs *not* managed by the distribution package manager
+  # (e.g. locally compiled packages)
+  PATH="$HOME/local/bin:$PATH"
+
+  # for "stuff you download from the internet" or "stuff you make"
+  PATH="$HOME/bin:$PATH"
 
 {{ end }}
 
