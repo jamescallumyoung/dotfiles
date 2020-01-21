@@ -64,10 +64,16 @@ alias twtxt="twtxt -c .config/twtxt/conf"
 # Git
 alias gf="echo fetching... && git fetch --prune && gb"
 alias gfp="echo fetching... && git fetch --prune && gb && git pull"
-alias grmm="git branch --merged | egrep -v '(master|dev)' | xargs git branch -d"
+alias grmm="git branch --merged | egrep -v '(master|dev|develop)' | xargs git branch -d"
+
+# hub (GitHub cli)
+eval "$(hub alias -s)"
 
 # 1password (op)
 alias opsignin='eval $(op signin my)'
+
+# jenv
+eval "$(jenv init -)"
 
 ##################################################################
 # LANG SPECIFIC ##################################################
