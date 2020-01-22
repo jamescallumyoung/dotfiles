@@ -1,0 +1,80 @@
+ZDOTDIR=$HOME/.config/zsh
+
+# PATH STUFF
+
+  # fpath
+  fpath=(/usr/local/share/zsh-completions $fpath) # zsh completions
+
+{{ if eq .chezmoi.os "darwin" }} # macOS
+
+  # Homebrew
+  PATH="/usr/local/sbin:$PATH"
+
+{{ else if eq .chezmoi.os "linux" }}
+
+  # ???
+  PATH="$HOME/.local/bin:$PATH"
+	  
+  # for distribution-managed (i.e. apt) normal user programs
+  PATH="/usr/bin:$PATH"
+
+  # for normal user programs *not* managed by the distribution package manager
+  # (e.g. locally compiled packages)
+  PATH="$HOME/local/bin:$PATH"
+
+  # for "stuff you download from the internet" or "stuff you make"
+  PATH="$HOME/bin:$PATH"
+
+{{ else if eq .chezmoi.os "windows" }}
+
+  # nothing added to path specifically for windows
+
+{{ end }}
+
+  # My Gists / Functions
+  PATH="$HOME/Gists/:$PATH"
+
+  # Go
+  export GOPATH=$HOME/go
+  PATH=$PATH:$GOPATH/bi
+
+  # Rust
+  PATH="$HOME/.cargo/bin:$PATH"
+
+  # Java (jenv)
+  PATH="$HOME/.jenv/bin:$PATH"
+
+  export PATH
+
+# END OF PATH STUFF
+
+
+# EDITOR STUFF
+# prefer nvim if available, then vim, then vi, then nano
+
+if [ command -v nvim ] ; then
+  EDITOR=nvim
+elif [ command -v vim ] ; then
+  EDITOR=vim
+elif [ command -v vi ] ; then
+  EDITOR=vi
+else
+  EDITOR=nano
+fi
+
+
+# PAGER STUFF
+# prefer less over most, and most over more
+
+if [ command -v less ] ; then
+  PAGER=less
+elif [ command -v most ] ; then
+  PAGER=most
+else
+  PAGER=more
+fi
+
+
+# See here for more info on this file's usage:
+# https://unix.stackexchange.com/questions/71253/what-should-shouldnt-go-in-zshenv-zshrc-zlogin-zprofile-zlogout#71258
+
