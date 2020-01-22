@@ -1,6 +1,12 @@
 # Antigen (oh-my-zsh)
-source $HOME/.config/zsh/antigen.zsh # Source Antigen
-source $HOME/.config/zsh/.antigenrc # Apply our Antigen config
+
+## source antigen
+{{ if eq .chezmoi.os "linux" }}
+  source /usr/share/zsh-antigen/antigen.zsh
+{{ end }}
+
+## apply our antigen config
+source $HOME/.config/zsh/.antigenrc
 
 # PATH
 source $HOME/.config/zsh/.pathrc
