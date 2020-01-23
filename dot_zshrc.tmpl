@@ -1,12 +1,9 @@
 # Antigen (oh-my-zsh)
 
-## source antigen
 {{ if eq .chezmoi.os "linux" }}
-  source /usr/share/zsh-antigen/antigen.zsh
+  source /usr/share/zsh-antigen/antigen.zsh # source the antigen lib
+  source $HOME/.antigenrc # apply our antigen configs
 {{ end }}
-
-## apply our antigen config
-source $HOME/.config/zsh/.antigenrc
 
 # (Temp) minishift stuff
 
@@ -14,6 +11,7 @@ export MINISHIFT_USERNAME=jamescallumyoung
 export MINISHIFT_PASSWORD='ML8dIb!8u5VLfXisfqv^s8s*<Ma7WfY]4$tg5<I!y,=V0uVcr=1{;,f/~}n*'
 export PATH="/Users/jamesyoung/.minishift/cache/oc/v3.11.141/darwin:$PATH"
 
+# interactive shell options
 unsetopt beep
 
 # History
@@ -80,6 +78,7 @@ alias py="python3"
 
 # Java
 {{ if eq .chezmoi.os "darwin" }} # MacOS only
+  # add the system java version to PATH
   export JAVA_HOME=$(/usr/libexec/java_home)
 {{ end }}
 
