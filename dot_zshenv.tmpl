@@ -47,7 +47,7 @@
 # END OF PATH STUFF
 
 
-# EDITOR STUFF
+# EDITOR & VISUAL STUFF
 # prefer nvim if available, then vim, then vi, then nano
 
 if [ $(command -v nvim) ] ; then
@@ -59,6 +59,9 @@ elif [ $(command -v vi) ] ; then
 else
   EDITOR=nano
 fi
+
+export EDITOR
+export VISUAL="$EDITOR"
 
 
 # PAGER STUFF
@@ -72,7 +75,10 @@ else
   PAGER=more
 fi
 
+export PAGER
 
 # See here for more info on this file's usage:
 # https://unix.stackexchange.com/questions/71253/what-should-shouldnt-go-in-zshenv-zshrc-zlogin-zprofile-zlogout#71258
 
+# See here for more info on EDITOR vs VISUAL
+# https://unix.stackexchange.com/questions/4859/visual-vs-editor-what-s-the-difference
