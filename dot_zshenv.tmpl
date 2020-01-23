@@ -50,11 +50,11 @@
 # EDITOR STUFF
 # prefer nvim if available, then vim, then vi, then nano
 
-if [ command -v nvim ] ; then
+if [ $(command -v nvim) ] ; then
   EDITOR=nvim
-elif [ command -v vim ] ; then
+elif [ $(command -v vim) ] ; then
   EDITOR=vim
-elif [ command -v vi ] ; then
+elif [ $(command -v vi) ] ; then
   EDITOR=vi
 else
   EDITOR=nano
@@ -64,9 +64,9 @@ fi
 # PAGER STUFF
 # prefer less over most, and most over more
 
-if [ command -v less ] ; then
+if [ $(command -v less) ] ; then
   PAGER=less
-elif [ command -v most ] ; then
+elif [ $(command -v most) ] ; then
   PAGER=most
 else
   PAGER=more
