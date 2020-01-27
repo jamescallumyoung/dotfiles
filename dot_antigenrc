@@ -9,6 +9,8 @@ antigen bundle brew
 antigen bundle command-not-found
 antigen bundle docker
 antigen bundle git
+antigen bundle gitfast
+antigen bundle git-hubflow
 antigen bundle gitignore
 antigen bundle gnu-utils
 antigen bundle history-substring-search
