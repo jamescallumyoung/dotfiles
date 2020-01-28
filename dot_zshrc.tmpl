@@ -32,6 +32,11 @@ alias cl="clear"
 # Restart gpg-agent
 alias gpg-agent-restart="gpgconf --kill gpg-agent"
 
+{{ if eq .chezmoi.os "linux" }}
+  # Alias open on non-darwin systems
+  alias open="xdg-open"
+{{ end }}
+
 ##################################################################
 # APP SPECIFIC ###################################################
 
