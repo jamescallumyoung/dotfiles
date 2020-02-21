@@ -63,6 +63,7 @@ alias twtxt="twtxt -c .config/twtxt/conf"
 alias gf="echo fetching... && git fetch --prune && gb"
 alias gfp="echo fetching... && git fetch --prune && gb && git pull"
 alias grmm="git branch --merged | egrep -v '(master|dev|develop)' | xargs git branch -d"
+alias gbc='gco $(gba | pick)'
 
 # hub (GitHub cli)
 eval "$(hub alias -s)"
