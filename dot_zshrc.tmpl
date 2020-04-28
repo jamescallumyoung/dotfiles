@@ -60,8 +60,8 @@ alias f="fuck"
 alias twtxt="twtxt -c .config/twtxt/conf"
 
 # Git
-alias gf="echo fetching... && git fetch --prune && gb"
-alias gfp="echo fetching... && git fetch --prune && gb && git pull"
+alias gf="git fetch --prune"
+alias gfp="git fetch --prune && git pull"
 alias grmm="git branch --merged | egrep -v '(master|dev|develop)' | xargs git branch -d"
 alias gbc='gco $(gba | pick)'
 
