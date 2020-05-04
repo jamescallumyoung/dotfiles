@@ -23,9 +23,6 @@
   # for "stuff you download from the internet" or "stuff you make"
   PATH="$HOME/bin:$PATH"
 
-  # luarocks (like NPM for lua)
-  PATH="$HOME/.luarocks/bin:$PATH"
-
 {{ else if eq .chezmoi.os "windows" }}
 
   # nothing added to path specifically for windows
@@ -37,7 +34,7 @@
 
   # Go
   export GOPATH=$HOME/go
-  PATH=$PATH:$GOPATH/bi
+  PATH="$GOPATH/bin:$PATH"
 
   # Rust
   PATH="$HOME/.cargo/bin:$PATH"
@@ -45,6 +42,12 @@
   # Java (jenv)
   PATH="$HOME/.jenv/bin:$PATH"
 
+  # Yarn (NPM alt)
+  PATH="$HOME/.yarn/bin:$PATH"
+
+  # luarocks (like NPM for lua)
+  PATH="$HOME/.luarocks/bin:$PATH"
+  
   export PATH
 
 # END OF PATH STUFF
