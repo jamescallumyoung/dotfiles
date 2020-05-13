@@ -4,6 +4,10 @@
   source /usr/share/zsh-antigen/antigen.zsh # source the antigen lib
   source $HOME/.antigenrc # apply our antigen configs
 {{ end }}
+{{ if eq .chezmoi.os "darwin" }}
+  source /usr/local/share/antigen/antigen.zsh # source the antigen lib
+  source $HOME/.antigenrc # apply our antigen configs
+{{ end }}
 
 # (Temp) minishift stuff
 
