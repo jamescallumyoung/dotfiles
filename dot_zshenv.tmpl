@@ -8,6 +8,9 @@
   # Homebrew
   PATH="/usr/local/sbin:$PATH"
 
+  # for "stuff you download from the internet" or "stuff you make"
+  PATH="$HOME/bin:$PATH"
+
 {{ else if eq .chezmoi.os "linux" }}
 
   # ???
