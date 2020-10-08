@@ -1,0 +1,9 @@
+package brew
+package cd
+package foreign-env
+package https://github.com/patrickf3139/fzf.fish
+package hub
+package nvm
+package thefuck
+package z
+theme default
