@@ -12,18 +12,16 @@
 
 ## Install
 
-Create a repo for the dotfiles. `.git/` will live here, but the working tree will be placed
-in `$HOME`.
+Clone this repo to wherever you usually would. The `.git` directory will be created here, but the
+working tree will be moved to `$HOME` in a later step.
 
 ```shell script
-cd ~/repos
-mkdir dotfiles && cd dotfiles
-
-git clone <this_repo>
+mkdir -p ~/repos && cd ~/repos
+git clone git@github.com:jamescallumyoung/dotfiles.git
 ```
 
 Add an alias/function for `git` so we can work with the detached working tree.
-(These are already included in the dotfiles so no need to add them to the profile.) 
+(These are already included in the dotfiles so no need to add them to your profile.) 
 
 ```shell script
 # bash or zsh
@@ -41,12 +39,26 @@ cd $HOME
 dgit reset --hard
 ```
 
+Restart your shell to see shell-related changes take effect.
+
+```shell script
+# bash
+exec bash
+
+# zsh
+exec zsh
+
+# fish
+refresh
+```
+
 The dotfiles are now installed! 🎉
 
 ## Usage
 
 Make changes to the files as you normally would. When you're ready to commit them to git, simply
-use the `dgit` alias/function where you would usually use `git`. (And use the `-f` option when adding files, as they're all ignored by default.)
+use the `dgit` alias/function where you would usually use `git`. (And use the `-f` option when
+adding files, as they're all ignored by default.)
 
 Example:
 
@@ -62,10 +74,6 @@ dgit push
 
 * Website: https://jamesyoung.ch
 * Github: [@jamescallumyoung](https://github.com/jamescallumyoung)
-
-## Show your support
-
-Give a ⭐️ if this project helped you!
 
 ## 📝 License
 
