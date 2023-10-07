@@ -58,6 +58,7 @@ brew "hub"
 # (language)
 #
 
+tap "homebrew/cask-versions"# tap needed to access non-latest versions of temurin
 brew "jenv"                 # java virtual environment manager; allows switching java versions
 cask "temurin"              # latest Eclipse Temurin version
 cask "temurin17"            # java 17 - LTS until September 2027
