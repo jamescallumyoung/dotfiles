@@ -45,7 +45,7 @@ cat $MAIN_BREWFILE_PATH | brew bundle install --file=-
 # SYMLINK DOTFILES WITH GNU STOW
 #
 
-$STOW_DIR_PATH = "$REPO_PATH/$STOW_DIR"
+STOW_DIR_PATH="$REPO_PATH/$STOW_DIR"
 
 # stow is invoked once for each package in ./dotfiles
 
