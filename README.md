@@ -32,7 +32,7 @@ We're especially interested in checking to make sure packages installed by Homeb
 We need some packages to complete the setup. Install them with:
 
 ```
-curl -fsSL https://raw.githubusercontent.com/jamescallumyoung/dotfiles/brewfiles/initial.brewfile | brew bundle --file=-
+curl -fsSL https://raw.githubusercontent.com/jamescallumyoung/dotfiles/main/brewfiles/initial.brewfile | brew bundle --file=-
 ```
 
 ### Clone this repo
