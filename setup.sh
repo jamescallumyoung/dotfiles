@@ -6,7 +6,7 @@
 
 # these paths are relative to the repo path provided as an arg
 MAIN_BREWFILE="brewfiles/main.brewfile"
-STOW_DIR_NAME="dotfiles/"
+STOW_DIR_NAME="dotfiles"
 
 ##
 ## GET REPO LOCATION FROM ARGS
@@ -52,14 +52,15 @@ cat $MAIN_BREWFILE_PATH | brew bundle install --file=-
 echo "----------------------"
 echo "Running GNU Stow for each Stow package..."
 
-STOW_DIR_PATH="$REPO_PATH/$STOW_DIR"
+STOW_DIR_PATH="$REPO_PATH/$STOW_DIR_NAME"
+echo "using stow directory $STOW_DIR_PATH"
 
 # stow is invoked once for each package in ./dotfiles
 
-stow --dir $STOW_DIR_PATH --target $HOME fish
-stow --dir $STOW_DIR_PATH --target $HOME git
-stow --dir $STOW_DIR_PATH --target $HOME node
-stow --dir $STOW_DIR_PATH --target $HOME zsh
+stow --dir=$STOW_DIR_PATH --target=$HOME fish
+stow --dir=$STOW_DIR_PATH --target=$HOME git
+stow --dir=$STOW_DIR_PATH --target=$HOME node
+stow --dir=$STOW_DIR_PATH --target=$HOME zsh
 
 #
 # CHANGE DEFAULT SHELL TO ZSH
