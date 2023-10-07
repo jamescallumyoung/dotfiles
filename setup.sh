@@ -53,3 +53,11 @@ stow --dir $STOW_DIR_PATH --target $HOME fish
 stow --dir $STOW_DIR_PATH --target $HOME git
 stow --dir $STOW_DIR_PATH --target $HOME node
 stow --dir $STOW_DIR_PATH --target $HOME zsh
+
+#
+# CHANGE DEFAULT SHELL TO ZSH
+#
+
+# assumes 'which zsh' will return brew's zsh. (it should!) you can check with 'brew doctor'
+sudo sh -c "echo $(which zsh) >> /etc/shells"
+$ chsh -s $(which zsh)
