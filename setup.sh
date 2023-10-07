@@ -1,5 +1,8 @@
 #!/usr/bin/env sh
 
+echo "Beginning setup.sh..."
+set -e
+
 #
 # SET CONFIG VALUES
 #
