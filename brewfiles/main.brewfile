@@ -1,0 +1,125 @@
+#
+# Required for system setup
+#
+
+brew "stow"     # for managing dotfiles
+
+
+
+#
+# MODERN SHELL UTILS
+#
+
+brew "bat"      # better cat
+brew "fd"       # better find
+brew "fzf"
+brew "jq"
+brew "pick"
+brew "thefuck"
+brew "yq"       # jq for yaml and xml
+
+
+
+#
+# ZSH and other shells
+#
+
+brew "zsh"
+brew "antigen"
+
+brew "bash"     # it's worth updating bash as well
+brew "fish"     # we have some fish scripts we still use
+
+# See ./unix-utils.brewfile for updated base linux/bash tools
+
+
+#
+# GIT
+#
+
+brew "git"
+brew "gh"
+brew "git-extras"
+brew "git-lfs"
+brew "gitui"
+brew "hub"
+
+#
+# NODE, NPM, YARN
+# (language)
+#
+
+# nothing; we install node with antigen -> zsh-nvm -> nvm -> node
+
+
+
+#
+# JAVA, JVM, KOTLIN
+# (language)
+#
+
+brew "jenv"                 # java virtual environment manager; allows switching java versions
+cask "temurin"              # latest Eclipse Temurin version
+cask "temurin17"            # java 17 - LTS until September 2027
+cask "temurin11"            # java 11 - LTS until September 2024
+
+
+
+#
+# DOCKER, K8S
+#
+
+brew "derailed/k9s/k9s"     # in-terminal k8s dashboard
+brew "helm"
+brew "kubernetes-cli"       # kubectl, etc.
+cask "docker"
+cask "virtualbox"           # virtualbox's hypervisor is used by docker
+
+
+
+#
+# IDEs and GUI dev tools
+#
+
+# DB IDEs
+cask "azure-data-studio"    # for MS SQL
+cask "redisinsight"         # for redis
+cask "sequel-pro"           # for SQL (Postgress)
+
+# dev IDEs
+cask "jetbrains-toolbox"    # install Intellij, Webstorm, etc.
+cask "sublime-text"         # useful for big files; very good performance
+cask "visual-studio-code"   # just in case!
+
+brew "neovim"
+cask "insomnia"             # better postman
+cask "iterm2"               # better macOS terminal
+
+
+
+#
+# MAC UTILS
+#
+
+cask "rectangle"            # window manager for macOS
+cask "rocket"               # emoji tool for macOS
+
+
+
+#
+# OTHER COMMON APPS, etc.
+#
+
+brew "liquibase"            # db migration tool; used for work
+cask "discord"
+cask "firefox"              # gcloud cli for GCP
+cask "google-chrome"        # for when a site doesn't work with firefox
+cask "google-cloud-sdk"     # gcloud cli for GCP
+cask "handbrake"
+cask "ipfs"
+cask "macdown"
+cask "sonos"
+cask "spotify"
+cask "vlc"
+cask "vmware-horizon-client"    # needed to demote desktop for some work projects
+cask "zoom"
