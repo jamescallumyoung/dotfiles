@@ -71,7 +71,7 @@ echo "Changing default user shell to zsh..."
 
 # assumes 'which zsh' will return brew's zsh. (it should!) you can check with 'brew doctor'
 sudo sh -c "echo $(which zsh) >> /etc/shells"
-$ chsh -s $(which zsh)
+chsh -s $(which zsh)
 
 echo "----------------------"
 echo "Done!"
