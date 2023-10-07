@@ -21,7 +21,7 @@ The guide is suitable for setting up a new macOS device. Linux and Windows are n
 We use Homebrew to install packages on macOS. Install it using the install script:
 
 ````shell
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/jamescallumyoung/dotfiles/installers/brew.install.sh)"
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/jamescallumyoung/dotfiles/main/installers/brew.install.sh)"
 ````
 
 Then check Homebrew is installed correctly with `brew doctor`.
