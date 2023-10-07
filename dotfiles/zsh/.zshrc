@@ -25,11 +25,25 @@ alias l="ls -1"
 alias la="l -a"
 alias cl="clear"
 
-# Fuck
-eval $(thefuck --alias)
+# Other Aliases
+# (none)
+
+#
+# setup eval caching (lazy-loading) for tool that need `eval`ing 
+# (cached `eval`s can be cleared with `$ _evalcache_clear`)
+#
+
+# nvm
+# nothing to do; we use the zsh-nvm plugin to layz-load nvm
+
+# thefuck
+_evalcache thefuck --alias
 alias f="fuck"
 
 # hub (GitHub cli)
-eval "$(hub alias -s)"
+_evalcache hub alias -s
 
+# jenv; java environment manager
+export PATH="$HOME/.jenv/bin:$PATH"
+_evalcache jenv init -
 
