@@ -39,11 +39,18 @@ echo "repo path = $REPO_PATH"
 #
 
 MAIN_BREWFILE_PATH="$REPO_PATH/$MAIN_BREWFILE"
+echo "----------------------"
+echo "Installing Homebrew packages from $MAIN_BREWFILE_PATH"
+echo "Note: any failed installs should be manually corrected after this script has run"
+echo "This step may take some time..."
 cat $MAIN_BREWFILE_PATH | brew bundle install --file=-
 
 #
 # SYMLINK DOTFILES WITH GNU STOW
 #
+
+echo "----------------------"
+echo "Running GNU Stow for each Stow package..."
 
 STOW_DIR_PATH="$REPO_PATH/$STOW_DIR"
 
@@ -58,6 +65,12 @@ stow --dir $STOW_DIR_PATH --target $HOME zsh
 # CHANGE DEFAULT SHELL TO ZSH
 #
 
+echo "----------------------"
+echo "Changing default user shell to zsh..."
+
 # assumes 'which zsh' will return brew's zsh. (it should!) you can check with 'brew doctor'
 sudo sh -c "echo $(which zsh) >> /etc/shells"
 $ chsh -s $(which zsh)
+
+echo "----------------------"
+echo "Done!"
