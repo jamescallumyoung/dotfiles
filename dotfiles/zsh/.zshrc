@@ -1,3 +1,7 @@
+# setup antigen first
+source $(brew --prefix)/share/antigen/antigen.zsh
+antigen init $HOME/.antigenrc
+
 # terminal options; disable beeping
 unsetopt beep
 
