@@ -12,6 +12,13 @@ HISTSIZE=1000
 SAVEHIST=1000
 setopt appendhistory autocd
 
+#
+# paths
+#
+
+# add shortcut commands for jetbrains toolbox apps
+path+=("$HOME/Library/Application Support/JetBrains/Toolbox/scripts")
+
 # Aliases for builtins
 alias ll="ls -lhF"
 alias l="ls -1"
