@@ -78,6 +78,22 @@ Suggested files:
 - `~/npmrc`
 - kube configs
 
+#### Github login
+
+Generate a new SSH key (with `ssh-keygen -t ed25519 -a 100` -C "A_GOOD_KEY_NAME_HERE"`) for use with GitHub, and upload it to GitHub via their website.
+
+Then, add the following to `.ssh/config`:
+
+```
+Host github.com
+ HostName github.com
+ IdentityFile ~/.ssh/NAME_OF_YOUR_NEW_KEY
+```
+
+**Updating the dotfiles repo login:**
+
+If you want to be able to commit to the dotfiles repo from this device, you'll need to change the remote from HTTPS to SSH.
+
 ---
 
 ## About Stow
