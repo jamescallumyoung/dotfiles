@@ -1,0 +1,18 @@
+[user]
+	email = hello@jamesyoung.ch
+	name = James Young
+[core]
+	autocrlf = input
+[pull]
+	rebase = true
+[init]
+	defaultBranch = main
+[alias]
+	choose = !fish -c gbc
+	ui = !gitui
+	fet = !git fetch --prune && git pull
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
