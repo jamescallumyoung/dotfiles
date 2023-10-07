@@ -32,7 +32,12 @@ shift $((OPTIND-1))
 
 [ "${1:-}" = "--" ] && shift
 
-echo "repo path = $REPO_PATH"
+if [ -z "$REPO_PATH" ]; then
+  echo "You must provide the -R argument: -R \"PATH_TO_DOTFILES_REPO\". Exiting."
+  exit 1
+fi
+
+echo "Using repo path: $REPO_PATH"
 
 #
 # INSTALL PACKAGES WITH BREW
