@@ -74,7 +74,11 @@ brew "derailed/k9s/k9s"     # in-terminal k8s dashboard
 brew "helm"
 brew "kubernetes-cli"       # kubectl, etc.
 cask "docker"
-cask "virtualbox"           # virtualbox's hypervisor is used by docker
+
+# TEMP DISABLED!
+# for ARM macOS, you need to install the dev preview from:
+# https://www.virtualbox.org/wiki/Download_Old_Builds_7_0
+##cask "virtualbox"           # virtualbox's hypervisor is used by docker
 
 
 

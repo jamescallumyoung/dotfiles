@@ -94,6 +94,12 @@ Host github.com
 
 If you want to be able to commit to the dotfiles repo from this device, you'll need to change the remote from HTTPS to SSH.
 
+#### Virtualbox on ARM macOS
+
+ARM based macOS cannot install virtualbox with brew as the ARM builds are a developer preview.
+
+To install them, download the App from the [virtualbox website](https://www.virtualbox.org/wiki/Download_Old_Builds_7_0).
+
 ---
 
 ## About Stow
