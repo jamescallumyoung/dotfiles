@@ -11,6 +11,7 @@
 	choose = !fish -c gbc
 	ui = !gitui
 	fet = !git fetch --prune && git pull
+	lug = !fish -c glug
 [filter "lfs"]
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f
