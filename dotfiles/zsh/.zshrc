@@ -26,7 +26,8 @@ alias la="l -a"
 alias cl="clear"
 
 # Other Aliases
-# (none)
+alias webs="webstorm ./"
+alias idea="idea ./"
 
 #
 # setup eval caching (lazy-loading) for tool that need `eval`ing 
