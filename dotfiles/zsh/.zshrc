@@ -29,6 +29,7 @@ alias cl="clear"
 # Other Aliases
 alias webs="webstorm ./"
 alias idea="idea ./"
+alias tf="terraform"
 
 #
 # setup eval caching (lazy-loading) for tool that need `eval`ing 
