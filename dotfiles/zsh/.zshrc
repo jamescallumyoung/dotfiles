@@ -1,4 +1,5 @@
 # setup antigen first
+FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
 source $(brew --prefix)/share/antigen/antigen.zsh
 antigen init $HOME/.antigenrc
 
@@ -47,4 +48,14 @@ _evalcache hub alias -s
 # jenv; java environment manager
 export PATH="$HOME/.jenv/bin:$PATH"
 _evalcache jenv init -
+
+#
+# zsh completions
+#
+
+# fzf completions
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# git-extras completions
+source /opt/homebrew/opt/git-extras/share/git-extras/git-extras-completion.zsh
 
