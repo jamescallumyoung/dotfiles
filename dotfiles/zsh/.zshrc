@@ -50,6 +50,13 @@ export PATH="$HOME/.jenv/bin:$PATH"
 _evalcache jenv init -
 
 #
+# other confs
+#
+
+# liquibase
+LIQUIBASE_HOME="/opt/homebrew/opt/liquibase/libexec"
+
+#
 # zsh completions
 #
 
