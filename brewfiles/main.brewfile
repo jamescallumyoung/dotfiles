@@ -116,15 +116,19 @@ cask "rocket"               # emoji tool for macOS
 #
 
 brew "liquibase"            # db migration tool; used for work
+cask "1password-cli"
 cask "discord"
-cask "firefox"              # gcloud cli for GCP
+cask "firefox"
 cask "google-chrome"        # for when a site doesn't work with firefox
 cask "google-cloud-sdk"     # gcloud cli for GCP
 cask "handbrake"
 cask "ipfs"
+cask "lagrange"             # gemini client
 cask "macdown"
+cask "plex"                 # plex client
 cask "sonos"
 cask "spotify"
+cask "transmission"
 cask "vlc"
-cask "vmware-horizon-client"    # needed to demote desktop for some work projects
+cask "whatsapp"
 cask "zoom"
