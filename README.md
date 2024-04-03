@@ -55,8 +55,9 @@ The rest of the setup process is automatic. Just run the setup script in `~/.dot
 ```shell
 chmod +x "$HOME/.dotfilesrepo/setup.sh"
 
-# the -R arg is the location of the dotfiles repo
-/bin/bash -c "$HOME/.dotfilesrepo/setup.sh -R \"$HOME/.dotfilesrepo\""
+# the -r arg is the location of the dotfiles repo
+# -b, -d and -m enable the brewfiles, dotfiles, and misc steps, respectively.
+/bin/bash -c "$HOME/.dotfilesrepo/setup.sh -bdmr \"$HOME/.dotfilesrepo\""
 ```
 
 ### Additional manual steps
