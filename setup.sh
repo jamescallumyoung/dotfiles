@@ -21,13 +21,34 @@ STOW_DIR_NAME="dotfiles"
 OPTIND=1 # (A POSIX variable) reset in case getopts has been used previously in the shell
 
 REPO_PATH=""
+DO_INSTALL_BREWFILES=false
+DO_INSTALL_DOTFILES=false
+DO_MISC_STEPS=false
 
 # read from the args, using getopts (from util-linux)
-while getopts "R:" opt; do
+while getopts "r:bBdDmM" opt; do
   case "$opt" in
-    R)
+    r)
       REPO_PATH=$OPTARG
-    ;;
+      ;;
+    b)
+      DO_INSTALL_BREWFILES=true
+      ;;
+    B)
+      DO_INSTALL_BREWFILES=false
+      ;;
+    d)
+      DO_INSTALL_DOTFILES=true
+      ;;
+    D)
+      DO_INSTALL_DOTFILES=false
+      ;;
+    m)
+      DO_MISC_STEPS=true
+      ;;
+    M)
+      DO_MISC_STEPS=false
+      ;;
   esac
 done
 
@@ -36,7 +57,7 @@ shift $((OPTIND-1))
 [ "${1:-}" = "--" ] && shift
 
 if [ -z "$REPO_PATH" ]; then
-  echo "You must provide the -R argument: -R \"PATH_TO_DOTFILES_REPO\". Exiting."
+  echo "You must provide the -r argument: -r \"PATH_TO_DOTFILES_REPO\". Exiting."
   exit 1
 fi
 
@@ -46,41 +67,59 @@ echo "Using repo path: $REPO_PATH"
 # INSTALL PACKAGES WITH BREW
 #
 
-MAIN_BREWFILE_PATH="$REPO_PATH/$MAIN_BREWFILE"
-echo "----------------------"
-echo "Installing Homebrew packages from $MAIN_BREWFILE_PATH"
-echo "Note: any failed installs should be manually corrected after this script has run"
-echo "This step may take some time..."
-cat $MAIN_BREWFILE_PATH | brew bundle install --file=-
+if [ $DO_INSTALL_BREWFILES = true ]; then
+  MAIN_BREWFILE_PATH="$REPO_PATH/$MAIN_BREWFILE"
+  echo "-----------------------------------------------------"
+  echo "Installing Homebrew packages from $MAIN_BREWFILE_PATH"
+  echo "Note: any failed installs should be manually corrected after this script has run"
+  echo "This step may take some time..."
+  cat $MAIN_BREWFILE_PATH | brew bundle install --file=-
+else
+  echo "-----------------------------------------------------"
+  echo "Skipping brew install."
+  echo "(Enable this step with the -b flag. Disable with -B.)"
+fi
 
 #
 # SYMLINK DOTFILES WITH GNU STOW
 #
 
-echo "----------------------"
-echo "Running GNU Stow for each Stow package..."
+if [ $DO_INSTALL_DOTFILES = true ]; then
+  echo "-----------------------------------------------------"
+  echo "Running GNU Stow for each Stow package..."
 
-STOW_DIR_PATH="$REPO_PATH/$STOW_DIR_NAME"
-echo "using stow directory $STOW_DIR_PATH"
+  STOW_DIR_PATH="$REPO_PATH/$STOW_DIR_NAME"
+  echo "using stow directory $STOW_DIR_PATH"
 
-# stow is invoked once for each package in ./dotfiles
+  # stow is invoked once for each package in ./dotfiles
 
-stow --dir=$STOW_DIR_PATH --target=$HOME fish
-stow --dir=$STOW_DIR_PATH --target=$HOME git
-stow --dir=$STOW_DIR_PATH --target=$HOME node
-stow --dir=$STOW_DIR_PATH --target=$HOME nvim
-stow --dir=$STOW_DIR_PATH --target=$HOME zsh
+  stow --dir=$STOW_DIR_PATH --target=$HOME fish
+  stow --dir=$STOW_DIR_PATH --target=$HOME git
+  stow --dir=$STOW_DIR_PATH --target=$HOME node
+  stow --dir=$STOW_DIR_PATH --target=$HOME nvim
+  stow --dir=$STOW_DIR_PATH --target=$HOME zsh
+else
+  echo "-----------------------------------------------------"
+  echo "Skipping dotfiles."
+  echo "(Enable this step with the -d flag. Disable with -D.)"
+fi
 
 #
 # CHANGE DEFAULT SHELL TO ZSH
 #
 
-echo "----------------------"
-echo "Changing default user shell to zsh..."
+if [ $DO_MISC_STEPS = true ]; then
+  echo "-----------------------------------------------------"
+  echo "Changing default user shell to zsh..."
 
-# assumes 'which zsh' will return brew's zsh. (it should!) you can check with 'brew doctor'
-sudo sh -c "echo $(which zsh) >> /etc/shells"
-chsh -s $(which zsh)
+  # assumes 'which zsh' will return brew's zsh. (it should!) you can check with 'brew doctor'
+  sudo sh -c "echo $(which zsh) >> /etc/shells"
+  chsh -s $(which zsh)
+else
+  echo "-----------------------------------------------------"
+  echo "Skipping misc steps."
+  echo "(Enable this step with the -m flag. Disable with -M.)"
+fi
 
-echo "----------------------"
+echo "-----------------------------------------------------"
 echo "Done!"
