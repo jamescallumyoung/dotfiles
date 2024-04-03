@@ -32,7 +32,7 @@ We're especially interested in checking to make sure packages installed by Homeb
 We need some packages to complete the setup. Install them with:
 
 ```
-curl -fsSL https://raw.githubusercontent.com/jamescallumyoung/dotfiles/main/brewfiles/initial.brewfile | brew bundle --file=-
+curl -fsSL https://raw.githubusercontent.com/jamescallumyoung/dotfiles/main/pkg-lists/brew/initial.brewfile | brew bundle --file=-
 ```
 
 ### Clone this repo
@@ -56,8 +56,9 @@ The rest of the setup process is automatic. Just run the setup script in `~/.dot
 chmod +x "$HOME/.dotfilesrepo/setup.sh"
 
 # the -r arg is the location of the dotfiles repo
-# -b, -d and -m enable the brewfiles, dotfiles, and misc steps, respectively.
-/bin/bash -c "$HOME/.dotfilesrepo/setup.sh -bdmr \"$HOME/.dotfilesrepo\""
+# the -d and -m args enable the dotfiles, and misc steps.
+# the -p arg is the package manager to use. currently, only "brew" is supported.
+/bin/bash -c "$HOME/.dotfilesrepo/setup.sh -dmp "brew" -r \"$HOME/.dotfilesrepo\""
 ```
 
 ### Additional manual steps

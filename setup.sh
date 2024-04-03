@@ -8,7 +8,7 @@ set -e
 #
 
 # these paths are relative to the repo path provided as an arg
-MAIN_BREWFILE="brewfiles/main.brewfile"
+MAIN_BREWFILE="pkg-lists/brew/main.brewfile"
 STOW_DIR_NAME="dotfiles"
 
 ##
@@ -21,21 +21,16 @@ STOW_DIR_NAME="dotfiles"
 OPTIND=1 # (A POSIX variable) reset in case getopts has been used previously in the shell
 
 REPO_PATH=""
-DO_INSTALL_BREWFILES=false
+INSTALL_PKGS_WITH=""
 DO_INSTALL_DOTFILES=false
+DO_INSTALL_PKGS=false
 DO_MISC_STEPS=false
 
 # read from the args, using getopts (from util-linux)
-while getopts "r:bBdDmM" opt; do
+while getopts "r:dDmMp:P" opt; do
   case "$opt" in
     r)
       REPO_PATH=$OPTARG
-      ;;
-    b)
-      DO_INSTALL_BREWFILES=true
-      ;;
-    B)
-      DO_INSTALL_BREWFILES=false
       ;;
     d)
       DO_INSTALL_DOTFILES=true
@@ -49,6 +44,14 @@ while getopts "r:bBdDmM" opt; do
     M)
       DO_MISC_STEPS=false
       ;;
+    p)
+      DO_INSTALL_PKGS=true
+      INSTALL_PKGS_WITH=$OPTARG
+      ;;
+    P)
+      DO_INSTALL_PKGS=false
+      INSTALL_PKGS_WITH=""
+      ;;
   esac
 done
 
@@ -56,7 +59,7 @@ shift $((OPTIND-1))
 
 [ "${1:-}" = "--" ] && shift
 
-if [ -z "$REPO_PATH" ]; then
+if [ -z $REPO_PATH ]; then
   echo "You must provide the -r argument: -r \"PATH_TO_DOTFILES_REPO\". Exiting."
   exit 1
 fi
@@ -67,17 +70,27 @@ echo "Using repo path: $REPO_PATH"
 # INSTALL PACKAGES WITH BREW
 #
 
-if [ $DO_INSTALL_BREWFILES = true ]; then
-  MAIN_BREWFILE_PATH="$REPO_PATH/$MAIN_BREWFILE"
-  echo "-----------------------------------------------------"
-  echo "Installing Homebrew packages from $MAIN_BREWFILE_PATH"
-  echo "Note: any failed installs should be manually corrected after this script has run"
-  echo "This step may take some time..."
-  cat $MAIN_BREWFILE_PATH | brew bundle install --file=-
+if [ $DO_INSTALL_PKGS = true ]; then
+  case "$INSTALL_PKGS_WITH" in
+    brew)
+      MAIN_BREWFILE_PATH="$REPO_PATH/$MAIN_BREWFILE"
+      echo "-----------------------------------------------------"
+      echo "Installing Homebrew packages from $MAIN_BREWFILE_PATH"
+      echo "Note: any failed installs should be manually corrected after this script has run"
+      echo "This step may take some time..."
+      cat $MAIN_BREWFILE_PATH | brew bundle install --file=-
+      ;;
+    *)
+      echo "-----------------------------------------------------"
+      echo "Cannot install packages. Specified package manager is not supported."
+      echo "Package manager is: \"$INSTALL_PKGS_WITH\"."
+  esac
 else
   echo "-----------------------------------------------------"
-  echo "Skipping brew install."
-  echo "(Enable this step with the -b flag. Disable with -B.)"
+  echo "Skipping package install."
+  echo "(Enable this step with the -p flag. Disable with -P.)"
+  echo "(The -p flag expects an argument; the package manager to use."
+  echo "(Set -p to "brew" to use homebrew.)"
 fi
 
 #
