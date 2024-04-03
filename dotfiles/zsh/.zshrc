@@ -26,6 +26,11 @@ alias l="ls -1"
 alias la="l -a"
 alias cl="clear"
 
+# Aliases for grep
+alias grep="ugrep -G"
+alias egrep="ugrep -E"
+alias fgrep="ugrep -F"
+
 # Aliases for Vim
 alias vi="nvim"
 alias vim="nvim"

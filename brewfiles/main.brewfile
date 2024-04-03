@@ -15,9 +15,10 @@ brew "fd"       # better find
 brew "fzf"
 brew "jq"
 brew "pick"
+brew "ripgrep"  # better search (grep, etc.)
 brew "thefuck"
+brew "ugrep"    # better grep, egrep, and fgrep
 brew "yq"       # jq for yaml and xml
-
 
 
 #
