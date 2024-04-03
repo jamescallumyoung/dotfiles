@@ -1,13 +1,12 @@
 # dotfiles
 
 Dotfiles are the files used to configure macOS, Linux and Windows environments.
-They're highly specific to the user.
-These are [@jamescallumyoung](https://github.com/jamescallumyoung)'s.
+They're highly specific to the user. These are [@jamescallumyoung](https://github.com/jamescallumyoung)'s.
 
 This repo does three things, and each step can be toggled on or off:
 
-- installs @jamescallumyoung's dotfiles
-- installs packages from a list
+- installs dotfiles
+- installs packages from a brewfile or pkglist
 - performs additional miscellaneous actions to complete the setup
 
 Follow the installation guide below to copy this setup to a new device.
@@ -22,7 +21,7 @@ Packages are specified in a handful of files, and installed by `setup.sh`.
 Which file is used depends on what package manager is selected:
 
 - `.brewfile`s are used by [Homebrew](https://brew.sh/), "macOS's missing package manager".
-- `.pkglist`s are used to install APT, Flatpak, and Snap packages. This is not a known file format; it was devised for this repo. 
+- `.pkglist`s are used by [pkglist-cli][1], a custom tool to handle installing packages with numerous package managers.
 
 ---
 
@@ -34,7 +33,8 @@ Note: This guide was created to set up a new macOS device. Linux and Windows are
 
 ### Install Package Managers
 
-Which package manager you need is up to you. For macOS, Homebrew is recommended. For Debian-based Linux, APT, Flatpak, and Snap can all be used together. Homebrew can also be used on Linux.
+Which package manager you need is up to you. For macOS, Homebrew is recommended.
+For Debian-based Linux, APT, Flatpak, and Snap can all be used together. Homebrew can also be used on Linux.
 
 To proceed, you need to have every package manager you want to use installed.
 
@@ -49,12 +49,14 @@ We use Homebrew to install packages on macOS. Install it using the install scrip
 Then check Homebrew is installed correctly with `brew doctor`.
 We're especially interested in checking to make sure packages installed by Homebrew take priority over the versions shipped by Apple.
 
-#### APT, Flatpak, and Snap
+#### APT, Flatpak, Snap
 
 Apt should already be installed.
 You should check your distro's guides for installing Flatpak and Snap.
 
 ### Install packages needed for setup
+
+#### Git
 
 We need Git installed to complete the setup. Install it with:
 
@@ -62,8 +64,31 @@ We need Git installed to complete the setup. Install it with:
 # for Homebrew:
 brew install --formulae git
 
-# for Pkglist:
+# for pkglist:
 apt install -y git
+```
+
+#### pkglist-cli
+
+To use `.pkglist` files, we need a pkglist parser, like the one provided by [pkglist-cli][1].
+To use it, we need to first install Node.js:
+
+```shell
+sudo apt update && sudo apt install nodejs
+```
+
+Now, we can use pkglist-cli via NPX with:
+
+```shell
+npx -p pkglist-cli -c "pkglist"
+```
+
+Or, install it and call it directly:
+
+```shell
+npm i -g pkglist-cli
+
+pkglist
 ```
 
 ### Clone this repo
@@ -91,7 +116,7 @@ The script expects some arguments to enable each step, and select the package ma
 - The -d and -m args enable the dotfiles, and misc steps.
 - The -p arg is the package manager to use:
   - brew, or
-  - apt+flatpak+snap
+  - pkglist (APT, Flatpak, and Snap)
 
 ```shell
 chmod +x "$HOME/.dotfilesrepo/setup.sh"
@@ -159,3 +184,18 @@ You can learn more about what these terms mean in the [the docs](https://www.gnu
 
 Stow is invoked by the `setup.sh` script.
 
+---
+
+## About pkglist
+
+The pkglist format aims to provide Brewfile-like functionality to the Linux package managers I commonly use:
+APT, Flatpak, and Snap.
+
+`.pkglist` files can be parsed by a pkglist parser, such as [pkglist-cli][1], and then passed to the package manager.
+
+You can learn more about the pkglist project by reading [the spec][2].
+
+pkglist-cli is invoked by the `setup.sh` script.
+
+[1]: https://github.com/jamescallumyoung/pkglist-cli-ts
+[2]: https://github.com/jamescallumyoung/pkglist-spec
