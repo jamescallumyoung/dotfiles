@@ -12,7 +12,7 @@ set -e
 #
 
 # these paths are relative to the repo path provided as an arg
-MAIN_BREWFILE="pkg-lists/brew/main.brewfile"
+MAIN_BREWFILE="pkg-lists/brewfiles/main.brewfile"
 STOW_DIR_NAME="dotfiles"
 
 ##
