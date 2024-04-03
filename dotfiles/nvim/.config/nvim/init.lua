@@ -11,10 +11,12 @@ vim.o.smarttab = true
 vim.o.softtabstop = 4
 
 vim.g.mouse = a             -- Allow clicking to place the cursor (as in modern GUIs)
-vim.o.wrap = true           -- Disable line wrapping
+vim.o.wrap = true           -- Line wrapping
 vim.o.cursorline = false    -- Highlight the current line
 vim.o.termguicolors = true  -- Enable 24-bit RGB colors
 vim.o.showcmd = true
+
+vim.g.coc_node_path = "~/.nvm/versions/node/v20.11.0/bin/node"
 
 -- Syntax highlighting and filetype plugins
 -- vim.cmd('syntax enable')
@@ -37,3 +39,7 @@ vim.opt.rtp:prepend(lazypath)
 
 -- tell lazy.nvim to load all plugins in ~/.config/nvim/lua/plugins{.lua|/*.lua}
 require("lazy").setup("plugins")
+
+-- set the colorscheme
+vim.cmd[[colorscheme tokyonight-moon]]
+
