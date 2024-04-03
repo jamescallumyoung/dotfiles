@@ -1,6 +1,10 @@
 #!/usr/bin/env sh
 
-echo "Beginning setup.sh..."
+GREEN='\033[0;32m'
+RED='\033[0;31m'
+NC='\033[0m' # No color
+
+echo "${GREEN}Beginning setup.sh...${NC}"
 set -e
 
 #
@@ -60,7 +64,7 @@ shift $((OPTIND-1))
 [ "${1:-}" = "--" ] && shift
 
 if [ -z $REPO_PATH ]; then
-  echo "You must provide the -r argument: -r \"PATH_TO_DOTFILES_REPO\". Exiting."
+  echo "${RED}You must provide the -r argument: -r \"PATH_TO_DOTFILES_REPO\". Exiting.${NC}"
   exit 1
 fi
 
@@ -75,22 +79,24 @@ if [ $DO_INSTALL_PKGS = true ]; then
     brew)
       MAIN_BREWFILE_PATH="$REPO_PATH/$MAIN_BREWFILE"
       echo "-----------------------------------------------------"
-      echo "Installing Homebrew packages from $MAIN_BREWFILE_PATH"
+      echo "${GREEN}Installing Packages...${NC}"
+      echo "Using homebrew"
+      echo "From package list $MAIN_BREWFILE_PATH.${NC}"
       echo "Note: any failed installs should be manually corrected after this script has run"
       echo "This step may take some time..."
-      cat $MAIN_BREWFILE_PATH | brew bundle install --file=-
+      cat $MAIN_BREWFILE_PATH | brew bundle install --file=- >/dev/null
       ;;
     *)
       echo "-----------------------------------------------------"
-      echo "Cannot install packages. Specified package manager is not supported."
-      echo "Package manager is: \"$INSTALL_PKGS_WITH\"."
+      echo "${RED}Cannot install packages. Specified package manager is not supported.${NC}"
+      echo "${RED}Package manager is: \"$INSTALL_PKGS_WITH\".${NC}"
   esac
 else
   echo "-----------------------------------------------------"
-  echo "Skipping package install."
+  echo "${GREEN}Skipping package install.${NC}"
   echo "(Enable this step with the -p flag. Disable with -P.)"
-  echo "(The -p flag expects an argument; the package manager to use."
-  echo "(Set -p to "brew" to use homebrew.)"
+  echo "(The -p flag expects an argument: the package manager to use.)"
+  echo "(Set -p to \"brew\" to use homebrew.)"
 fi
 
 #
@@ -99,10 +105,10 @@ fi
 
 if [ $DO_INSTALL_DOTFILES = true ]; then
   echo "-----------------------------------------------------"
-  echo "Running GNU Stow for each Stow package..."
+  echo "${GREEN}Running GNU Stow for each Stow package...${NC}"
 
   STOW_DIR_PATH="$REPO_PATH/$STOW_DIR_NAME"
-  echo "using stow directory $STOW_DIR_PATH"
+  echo "Using stow directory $STOW_DIR_PATH"
 
   # stow is invoked once for each package in ./dotfiles
 
@@ -113,7 +119,7 @@ if [ $DO_INSTALL_DOTFILES = true ]; then
   stow --dir=$STOW_DIR_PATH --target=$HOME zsh
 else
   echo "-----------------------------------------------------"
-  echo "Skipping dotfiles."
+  echo "${GREEN}Skipping dotfiles.${NC}"
   echo "(Enable this step with the -d flag. Disable with -D.)"
 fi
 
@@ -123,16 +129,17 @@ fi
 
 if [ $DO_MISC_STEPS = true ]; then
   echo "-----------------------------------------------------"
-  echo "Changing default user shell to zsh..."
+  echo "${GREEN}Changing default user shell to zsh...${NC}"
 
   # assumes 'which zsh' will return brew's zsh. (it should!) you can check with 'brew doctor'
   sudo sh -c "echo $(which zsh) >> /etc/shells"
   chsh -s $(which zsh)
 else
   echo "-----------------------------------------------------"
-  echo "Skipping misc steps."
+  echo "${GREEN}Skipping misc steps.${NC}"
   echo "(Enable this step with the -m flag. Disable with -M.)"
 fi
 
 echo "-----------------------------------------------------"
-echo "Done!"
+echo "${GREEN}Done!${NC}"
+
