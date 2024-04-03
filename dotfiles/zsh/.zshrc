@@ -26,6 +26,10 @@ alias l="ls -1"
 alias la="l -a"
 alias cl="clear"
 
+# Aliases for Vim
+alias vi="nvim"
+alias vim="nvim"
+
 # Other Aliases
 alias webs="webstorm ./"
 alias idea="idea ./"
