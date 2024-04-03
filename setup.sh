@@ -13,6 +13,7 @@ set -e
 
 # these paths are relative to the repo path provided as an arg
 MAIN_BREWFILE="pkg-lists/brewfiles/main.brewfile"
+MAIN_PKGLIST="pkg-lists/pkglists/main.pkglist"
 STOW_DIR_NAME="dotfiles"
 
 ##
@@ -81,10 +82,42 @@ if [ $DO_INSTALL_PKGS = true ]; then
       echo "-----------------------------------------------------"
       echo "${GREEN}Installing Packages...${NC}"
       echo "Using homebrew"
-      echo "From package list $MAIN_BREWFILE_PATH.${NC}"
+      echo "From package list $MAIN_BREWFILE_PATH."
       echo "Note: any failed installs should be manually corrected after this script has run"
       echo "This step may take some time..."
       cat $MAIN_BREWFILE_PATH | brew bundle install --file=- >/dev/null
+      ;;
+    "apt+flatpak+snap")
+      MAIN_PKGLIST_PATH="$REPO_PATH/$MAIN_PKGLIST"
+      echo "-----------------------------------------------------"
+      echo "${GREEN}Installing Packages...${NC}"
+      echo "Using APT, Flatpak, and Snap"
+      echo "From package list $MAIN_PKGLIST_PATH."
+
+      # apt
+      cat $MAIN_PKGLIST_PATH \
+        | grep "^apt\s" \
+        | cut -c 5- \
+        | xargs echo DEMO apt install -y
+
+      # flatpak
+      cat $MAIN_PKGLIST_PATH \
+        | grep "^flatpak\s" \
+        | cut -c 9- \
+        | xargs echo "DEMO flatpack install --noninteractive"
+
+      # snap
+      cat $MAIN_PKGLIST_PATH \
+        | grep "^snap\s" \
+        | cut -c 6- \
+        | xargs echo DEMO snap install
+      
+      # snap --classic
+      cat $MAIN_PKGLIST_PATH \
+        | grep "^snap-classic\s" \
+        | cut -c 14- \
+        | xargs echo DEMO snap install --classic
+
       ;;
     *)
       echo "-----------------------------------------------------"
@@ -97,6 +130,7 @@ else
   echo "(Enable this step with the -p flag. Disable with -P.)"
   echo "(The -p flag expects an argument: the package manager to use.)"
   echo "(Set -p to \"brew\" to use homebrew.)"
+  echo "(Set -p to \"apt+flatpak+snap\" to use APT, Flatpak, and Snap.)"
 fi
 
 #

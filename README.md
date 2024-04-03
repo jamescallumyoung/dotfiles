@@ -1,12 +1,28 @@
 # dotfiles
 
-Dotfiles are the files used to configure linux (and macOS) environments.
-They're highly specific to the user. These are [@jamescallumyoung](https://github.com/jamescallumyoung)'s.
+Dotfiles are the files used to configure macOS, Linux and Windows environments.
+They're highly specific to the user.
+These are [@jamescallumyoung](https://github.com/jamescallumyoung)'s.
 
-This repo also contains brewfiles for use with [Homebrew](https://brew.sh/) ("macOS's missing package manager").
-These allow multiple packages and apps to be installed at once.
+This repo does three things, and each step can be toggled on or off:
+
+- installs @jamescallumyoung's dotfiles
+- installs packages from a list
+- performs additional miscellaneous actions to complete the setup
 
 Follow the installation guide below to copy this setup to a new device.
+
+---
+
+## Regarding Packages
+
+This repo contains a process for installing packages.
+Packages are specified in a handful of files, and installed by `setup.sh`.
+
+Which file is used depends on what package manager is selected:
+
+- `.brewfile`s are used by [Homebrew](https://brew.sh/), "macOS's missing package manager".
+- `.pkglist`s are used to install APT, Flatpak, and Snap packages. This is not a known file format; it was devised for this repo. 
 
 ---
 
@@ -14,9 +30,15 @@ Follow the installation guide below to copy this setup to a new device.
 
 The guide below outlines some manual steps that need to be done, followed by a `setup.sh` script that finishes the process.
 
-The guide is suitable for setting up a new macOS device. Linux and Windows are not supported.
+Note: This guide was created to set up a new macOS device. Linux and Windows are still experimental.
 
-### Install Homebrew
+### Install Package Managers
+
+Which package manager you need is up to you. For macOS, Homebrew is recommended. For Debian-based Linux, APT, Flatpak, and Snap can all be used together. Homebrew can also be used on Linux.
+
+To proceed, you need to have every package manager you want to use installed.
+
+#### Homebrew
 
 We use Homebrew to install packages on macOS. Install it using the install script:
 
@@ -27,12 +49,21 @@ We use Homebrew to install packages on macOS. Install it using the install scrip
 Then check Homebrew is installed correctly with `brew doctor`.
 We're especially interested in checking to make sure packages installed by Homebrew take priority over the versions shipped by Apple.
 
+#### APT, Flatpak, and Snap
+
+Apt should already be installed.
+You should check your distro's guides for installing Flatpak and Snap.
+
 ### Install packages needed for setup
 
-We need some packages to complete the setup. Install them with:
+We need Git installed to complete the setup. Install it with:
 
 ```
-curl -fsSL https://raw.githubusercontent.com/jamescallumyoung/dotfiles/main/pkg-lists/brewfiles/initial.brewfile | brew bundle --file=-
+# for Homebrew:
+brew install --formulae git
+
+# for Pkglist:
+apt install -y git
 ```
 
 ### Clone this repo
@@ -52,18 +83,27 @@ git clone https://github.com/jamescallumyoung/dotfiles.git $HOME/.dotfilesrepo
 
 The rest of the setup process is automatic. Just run the setup script in `~/.dotfilesrepo`.
 
+The script expects some arguments to enable each step, and select the package manager to use.
+
+**Args:**
+
+- The -r arg is the location of the dotfiles repo
+- The -d and -m args enable the dotfiles, and misc steps.
+- The -p arg is the package manager to use:
+  - brew, or
+  - apt+flatpak+snap
+
 ```shell
 chmod +x "$HOME/.dotfilesrepo/setup.sh"
 
-# the -r arg is the location of the dotfiles repo
-# the -d and -m args enable the dotfiles, and misc steps.
-# the -p arg is the package manager to use. currently, only "brew" is supported.
-/bin/bash -c "$HOME/.dotfilesrepo/setup.sh -dmp "brew" -r \"$HOME/.dotfilesrepo\""
+/bin/bash -c "$HOME/.dotfilesrepo/setup.sh -dmp "A-PKG-MGR" -r \"$HOME/.dotfilesrepo\""
 ```
+
+Note: Your password may be required at multiple stages. Some packages may need options to be selected (esp. when using Flatpak). This is not a script you can run unattended.
 
 ### Additional manual steps
 
-#### Set Terminal.app's default shell
+#### On macOS, set Terminal.app's default shell
 
 macOS's default terminal, Terminal.app, may use a different shell. We want to change this even though we don't use Terminal.app.
 To change this, open Terminal.app, press SPACE+. and set _General_ -> _Shells open with_ to "Default login shell".
@@ -118,3 +158,4 @@ This repo is organized so that:
 You can learn more about what these terms mean in the [the docs](https://www.gnu.org/software/stow/manual/stow.html#Terminology).
 
 Stow is invoked by the `setup.sh` script.
+
