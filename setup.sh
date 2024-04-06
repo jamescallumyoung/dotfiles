@@ -115,16 +115,23 @@ if [ $DO_INSTALL_PKGS = true ]; then
 
       # note: snap is currently unable to install multiple packages at once
       #       we have to invoke `snap install` once for each package
+      #
+      # note: snap errors is the package isn't available on this architecture
+      #       so we must disable `set -e`
 
       echo "${BLUE}--- snap ---${NC}"
+      set +e
       cat $MAIN_PKGLIST_PATH | pkglist parse -Up snap \
           | awk '{OFS=ORS; $1=$1}1' \
           | while read line ; do $DRY sudo $(pkglist get-script -p snap) $line ; done
+      set -e
 
       echo "${BLUE}--- snap --classic ---${NC}"
+      set +e
       cat $MAIN_PKGLIST_PATH | pkglist parse -Up snap-classic \
           | awk '{OFS=ORS; $1=$1}1' \
           | while read line ; do $DRY sudo $(pkglist get-script -p snap-classic) $line ; done
+      set =e
 
       echo "${GREEN}...done!${NC}"
       echo "${BLUE}Note: any failed installs should be manually corrected after this script has run${NC}"
