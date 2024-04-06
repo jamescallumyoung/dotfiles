@@ -1,5 +1,6 @@
 #!/usr/bin/env sh
 
+BLUE='\033[0;34m'
 GREEN='\033[0;32m'
 RED='\033[0;31m'
 NC='\033[0m' # No color
@@ -69,7 +70,7 @@ if [ -z $REPO_PATH ]; then
   exit 1
 fi
 
-echo "Using repo path: $REPO_PATH"
+echo "${BLUE}Using repo path: $REPO_PATH${NC}"
 
 #
 # INSTALL PACKAGES WITH BREW
@@ -81,31 +82,40 @@ if [ $DO_INSTALL_PKGS = true ]; then
       MAIN_BREWFILE_PATH="$REPO_PATH/$MAIN_BREWFILE"
       echo "-----------------------------------------------------"
       echo "${GREEN}Installing Packages...${NC}"
-      echo "Using homebrew"
-      echo "From brewfile $MAIN_BREWFILE_PATH."
-      echo "This step may take some time..."
+      echo "${BLUE}Using homebrew.${NC}"
+      echo "${BLUE}From brewfile $MAIN_BREWFILE_PATH.${NC}"
+      echo "${BLUE}This step may take some time...${NC}"
 
       cat $MAIN_BREWFILE_PATH | brew bundle install --file=-
 
-      echo "...done!"
-      echo "Note: any failed installs should be manually corrected after this script has run."
+      echo "${GREEN}...done!${NC}"
+      echo "${BLUE}Note: any failed installs should be manually corrected after this script has run.${NC}"
       ;;
     pkglist)
       MAIN_PKGLIST_PATH="$REPO_PATH/$MAIN_PKGLIST"
       echo "-----------------------------------------------------"
       echo "${GREEN}Installing Packages...${NC}"
-      echo "Using pkglist-cli (APT, Flatpak, and Snap)"
-      echo "From pkglist $MAIN_PKGLIST_PATH."
-      echo "This step may take some time..."
+      echo "${BLUE}Using pkglist-cli (APT, Flatpak, and Snap).${NC}"
+      echo "${BLUE}From pkglist $MAIN_PKGLIST_PATH.${NC}"
+      echo "${BLUE}This step may take some time...${NC}"
 
+      echo "${BLUE}--- pkglist ---${NC}"
       npm i -g pkglist-cli
+
+      echo "${BLUE}--- apt ---${NC}"
       cat $MAIN_PKGLIST_PATH | pkglist parse -Up apt | xargs echo $(pkglist get-command -p apt)
+
+      echo "${BLUE}--- flatpak ---${NC}"
       cat $MAIN_PKGLIST_PATH | pkglist parse -Up flatpak | xargs echo $(pkglist get-command -p flatpak)
+
+      echo "${BLUE}--- snap ---${NC}"
       cat $MAIN_PKGLIST_PATH | pkglist parse -Up snap | xargs echo $(pkglist get-command -p snap)
+
+      echo "${BLUE}--- snap --classic ---${NC}"
       cat $MAIN_PKGLIST_PATH | pkglist parse -Up snap-classic | xargs echo $(pkglist get-command -p snap-classic)
 
-      echo "...done!"
-      echo "Note: any failed installs should be manually corrected after this script has run"
+      echo "${GREEN}...done!${NC}"
+      echo "${BLUE}Note: any failed installs should be manually corrected after this script has run${NC}"
 
       ;;
     *)
@@ -117,10 +127,10 @@ if [ $DO_INSTALL_PKGS = true ]; then
 else
   echo "-----------------------------------------------------"
   echo "${GREEN}Skipping package install.${NC}"
-  echo "(Enable this step with the -p flag. Disable with -P.)"
-  echo "(The -p flag expects an argument: the package manager to use.)"
-  echo "(Set -p to \"brew\" to use homebrew.)"
-  echo "(Set -p to \"apt+flatpak+snap\" to use APT, Flatpak, and Snap.)"
+  echo "${BLUE}(Enable this step with the -p flag. Disable with -P.)${NC}"
+  echo "${BLUE}(The -p flag expects an argument: the package manager to use.)${NC}"
+  echo "${BLUE}(Set -p to \"brew\" to use homebrew.)${NC}"
+  echo "${BLUE}(Set -p to \"apt+flatpak+snap\" to use APT, Flatpak, and Snap.)${NC}"
 fi
 
 #
@@ -132,7 +142,7 @@ if [ $DO_INSTALL_DOTFILES = true ]; then
   echo "${GREEN}Running GNU Stow for each Stow package...${NC}"
 
   STOW_DIR_PATH="$REPO_PATH/$STOW_DIR_NAME"
-  echo "Using stow directory $STOW_DIR_PATH"
+  echo "${BLUE}Using stow directory $STOW_DIR_PATH${NC}"
 
   # stow is invoked once for each package in ./dotfiles
 
@@ -140,10 +150,12 @@ if [ $DO_INSTALL_DOTFILES = true ]; then
   stow --dir=$STOW_DIR_PATH --target=$HOME git
   stow --dir=$STOW_DIR_PATH --target=$HOME nvim
   stow --dir=$STOW_DIR_PATH --target=$HOME zsh
+
+  echo "${GREEN}...done!${NC}"
 else
   echo "-----------------------------------------------------"
   echo "${GREEN}Skipping dotfiles.${NC}"
-  echo "(Enable this step with the -d flag. Disable with -D.)"
+  echo "${BLUE}(Enable this step with the -d flag. Disable with -D.)${NC}"
 fi
 
 #
@@ -157,12 +169,15 @@ if [ $DO_MISC_STEPS = true ]; then
   # assumes 'which zsh' will return brew's zsh. (it should!) you can check with 'brew doctor'
   sudo sh -c "echo $(which zsh) >> /etc/shells"
   chsh -s $(which zsh)
+  
+  echo "${GREEN}...done!${NC}"
 else
   echo "-----------------------------------------------------"
   echo "${GREEN}Skipping misc steps.${NC}"
-  echo "(Enable this step with the -m flag. Disable with -M.)"
+  echo "${BLUE}(Enable this step with the -m flag. Disable with -M.)${NC}"
 fi
 
 echo "-----------------------------------------------------"
+echo "${GREEN}All steps are now complete.${NC}"
 echo "${GREEN}Done!${NC}"
 
