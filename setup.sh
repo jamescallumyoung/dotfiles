@@ -106,6 +106,7 @@ if [ $DO_INSTALL_PKGS = true ]; then
       sudo npm i -g pkglist-cli
 
       echo "${BLUE}--- apt ---${NC}"
+      sudo apt update
       cat $MAIN_PKGLIST_PATH | pkglist parse -Up apt \
           | xargs $DRY sudo $(pkglist get-script -p apt)
 
