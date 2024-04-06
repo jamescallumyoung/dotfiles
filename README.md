@@ -71,10 +71,11 @@ apt install -y git
 #### pkglist-cli
 
 To use `.pkglist` files, we need a pkglist parser, like the one provided by [pkglist-cli][1].
-To use it, we need to first install Node.js:
+To use it, we need to first install Node.js.
+We will install NVM later, but we install Node.js directly in this step for simplicity.
 
 ```shell
-sudo apt update && sudo apt install nodejs
+sudo apt update && sudo apt install nodejs$$$
 ```
 
 Now, we can use pkglist-cli via NPX with:

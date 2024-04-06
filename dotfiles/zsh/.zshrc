@@ -22,6 +22,15 @@ setopt appendhistory autocd
 # paths
 #
 
+# add paths for golang
+export GOPATH="$HOME/.gopath"   # my code -- usually ~/go but I prefer to use a hidden dir
+export GOROOT="$HOME/.go"       # golang source code
+path+=("$GOPATH/bin")           # my code, built and executable
+
+# add paths for yarn
+# (yarn global path set in .yarnrc)
+path+=("$HOME/.yarn/bin")
+
 # add shortcut commands for jetbrains toolbox apps
 path+=("$HOME/Library/Application Support/JetBrains/Toolbox/scripts")
 
@@ -74,7 +83,7 @@ alias f="fuck"
 _evalcache hub alias -s
 
 # jenv; java environment manager
-export PATH="$HOME/.jenv/bin:$PATH"
+path+=("$HOME/.jenv/bin")
 _evalcache jenv init -
 
 #
