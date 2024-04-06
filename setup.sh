@@ -82,47 +82,37 @@ if [ $DO_INSTALL_PKGS = true ]; then
       echo "-----------------------------------------------------"
       echo "${GREEN}Installing Packages...${NC}"
       echo "Using homebrew"
-      echo "From package list $MAIN_BREWFILE_PATH."
-      echo "Note: any failed installs should be manually corrected after this script has run"
+      echo "From brewfile $MAIN_BREWFILE_PATH."
       echo "This step may take some time..."
+
       cat $MAIN_BREWFILE_PATH | brew bundle install --file=- >/dev/null
+
+      echo "...done!"
+      echo "Note: any failed installs should be manually corrected after this script has run."
       ;;
-    "apt+flatpak+snap")
+    pkglist)
       MAIN_PKGLIST_PATH="$REPO_PATH/$MAIN_PKGLIST"
       echo "-----------------------------------------------------"
       echo "${GREEN}Installing Packages...${NC}"
-      echo "Using APT, Flatpak, and Snap"
-      echo "From package list $MAIN_PKGLIST_PATH."
+      echo "Using pkglist-cli (APT, Flatpak, and Snap)"
+      echo "From pkglist $MAIN_PKGLIST_PATH."
+      echo "This step may take some time..."
 
-      # apt
-      cat $MAIN_PKGLIST_PATH \
-        | grep "^apt\s" \
-        | cut -c 5- \
-        | xargs echo DEMO apt install -y
+      npm i -g pkglist-cli
+      cat $MAIN_PKGLIST_PATH | pkglist parse -Up apt | xargs echo $(pkglist get-command -p apt) #>/dev/null
+      cat $MAIN_PKGLIST_PATH | pkglist parse -Up flatpak | xargs echo $(pkglist get-command -p flatpak) #>/dev/null
+      cat $MAIN_PKGLIST_PATH | pkglist parse -Up snap | xargs echo $(pkglist get-command -p snap) #>/dev/null
+      cat $MAIN_PKGLIST_PATH | pkglist parse -Up snap-classic | xargs echo $(pkglist get-command -p snap-classic) #>/dev/null
 
-      # flatpak
-      cat $MAIN_PKGLIST_PATH \
-        | grep "^flatpak\s" \
-        | cut -c 9- \
-        | xargs echo "DEMO flatpack install --noninteractive"
-
-      # snap
-      cat $MAIN_PKGLIST_PATH \
-        | grep "^snap\s" \
-        | cut -c 6- \
-        | xargs echo DEMO snap install
-      
-      # snap --classic
-      cat $MAIN_PKGLIST_PATH \
-        | grep "^snap-classic\s" \
-        | cut -c 14- \
-        | xargs echo DEMO snap install --classic
+      echo "...done!"
+      echo "Note: any failed installs should be manually corrected after this script has run"
 
       ;;
     *)
       echo "-----------------------------------------------------"
       echo "${RED}Cannot install packages. Specified package manager is not supported.${NC}"
       echo "${RED}Package manager is: \"$INSTALL_PKGS_WITH\".${NC}"
+      echo "${RED}Supported managers are: \"brew\" and \"pkglist\".${NC}"
   esac
 else
   echo "-----------------------------------------------------"
