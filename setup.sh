@@ -114,7 +114,6 @@ if [ $DO_INSTALL_DOTFILES = true ]; then
 
   stow --dir=$STOW_DIR_PATH --target=$HOME fish
   stow --dir=$STOW_DIR_PATH --target=$HOME git
-  stow --dir=$STOW_DIR_PATH --target=$HOME node
   stow --dir=$STOW_DIR_PATH --target=$HOME nvim
   stow --dir=$STOW_DIR_PATH --target=$HOME zsh
 else
