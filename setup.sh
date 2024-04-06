@@ -1,5 +1,8 @@
 #!/usr/bin/env sh
 
+# dev flags
+DRY="" # set this to "echo" to perfirm a dry run of package installs
+
 BLUE='\033[0;34m'
 GREEN='\033[0;32m'
 RED='\033[0;31m'
@@ -100,19 +103,28 @@ if [ $DO_INSTALL_PKGS = true ]; then
       echo "${BLUE}This step may take some time...${NC}"
 
       echo "${BLUE}--- pkglist ---${NC}"
-      npm i -g pkglist-cli
+      sudo npm i -g pkglist-cli
 
       echo "${BLUE}--- apt ---${NC}"
-      cat $MAIN_PKGLIST_PATH | pkglist parse -Up apt | xargs echo $(pkglist get-command -p apt)
+      cat $MAIN_PKGLIST_PATH | pkglist parse -Up apt \
+          | xargs $DRY sudo $(pkglist get-script -p apt)
 
       echo "${BLUE}--- flatpak ---${NC}"
-      cat $MAIN_PKGLIST_PATH | pkglist parse -Up flatpak | xargs echo $(pkglist get-command -p flatpak)
+      cat $MAIN_PKGLIST_PATH | pkglist parse -Up flatpak \
+          | xargs $DRY sudo $(pkglist get-script -p flatpak)
+
+      # note: snap is currently unable to install multiple packages at once
+      #       we have to invoke `snap install` once for each package
 
       echo "${BLUE}--- snap ---${NC}"
-      cat $MAIN_PKGLIST_PATH | pkglist parse -Up snap | xargs echo $(pkglist get-command -p snap)
+      cat $MAIN_PKGLIST_PATH | pkglist parse -Up snap \
+          | awk '{OFS=ORS; $1=$1}1' \
+          | while read line ; do $DRY sudo $(pkglist get-script -p snap) $line ; done
 
       echo "${BLUE}--- snap --classic ---${NC}"
-      cat $MAIN_PKGLIST_PATH | pkglist parse -Up snap-classic | xargs echo $(pkglist get-command -p snap-classic)
+      cat $MAIN_PKGLIST_PATH | pkglist parse -Up snap-classic \
+          | awk '{OFS=ORS; $1=$1}1' \
+          | while read line ; do $DRY sudo $(pkglist get-script -p snap-classic) $line ; done
 
       echo "${GREEN}...done!${NC}"
       echo "${BLUE}Note: any failed installs should be manually corrected after this script has run${NC}"
