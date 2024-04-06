@@ -85,7 +85,7 @@ if [ $DO_INSTALL_PKGS = true ]; then
       echo "From brewfile $MAIN_BREWFILE_PATH."
       echo "This step may take some time..."
 
-      cat $MAIN_BREWFILE_PATH | brew bundle install --file=- >/dev/null
+      cat $MAIN_BREWFILE_PATH | brew bundle install --file=-
 
       echo "...done!"
       echo "Note: any failed installs should be manually corrected after this script has run."
@@ -99,10 +99,10 @@ if [ $DO_INSTALL_PKGS = true ]; then
       echo "This step may take some time..."
 
       npm i -g pkglist-cli
-      cat $MAIN_PKGLIST_PATH | pkglist parse -Up apt | xargs echo $(pkglist get-command -p apt) #>/dev/null
-      cat $MAIN_PKGLIST_PATH | pkglist parse -Up flatpak | xargs echo $(pkglist get-command -p flatpak) #>/dev/null
-      cat $MAIN_PKGLIST_PATH | pkglist parse -Up snap | xargs echo $(pkglist get-command -p snap) #>/dev/null
-      cat $MAIN_PKGLIST_PATH | pkglist parse -Up snap-classic | xargs echo $(pkglist get-command -p snap-classic) #>/dev/null
+      cat $MAIN_PKGLIST_PATH | pkglist parse -Up apt | xargs echo $(pkglist get-command -p apt)
+      cat $MAIN_PKGLIST_PATH | pkglist parse -Up flatpak | xargs echo $(pkglist get-command -p flatpak)
+      cat $MAIN_PKGLIST_PATH | pkglist parse -Up snap | xargs echo $(pkglist get-command -p snap)
+      cat $MAIN_PKGLIST_PATH | pkglist parse -Up snap-classic | xargs echo $(pkglist get-command -p snap-classic)
 
       echo "...done!"
       echo "Note: any failed installs should be manually corrected after this script has run"
