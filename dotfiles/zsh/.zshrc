@@ -4,9 +4,23 @@
 autoload -Uz compinit && compinit
 
 # setup antigen first
-FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
-source $(brew --prefix)/share/antigen/antigen.zsh
-antigen init $HOME/.antigenrc
+if [[ $(uname) == "Darwin" ]]; then
+    # macOS
+    fpath+=("$(brew --prefix)/share/zsh/site-functions")
+    source $(brew --prefix)/share/antigen/antigen.zsh
+    antigen init $HOME/.antigenrc
+
+elif command -v apt > /dev/null; then
+    # debian linux
+    fpath+=("/usr/local/share/zsh/site-functions")
+    source $(dpkg -L zsh-antigen | grep antigen.zsh)
+    antigen init $HOME/.antigenrc
+
+else
+    echo 'Unknown OS!'
+    echo 'zsh could not be set up correctly.'
+    echo 'antigen could not be set up correctly.'
+fi
 
 # terminal options; disable beeping
 unsetopt beep
@@ -91,7 +105,10 @@ _evalcache jenv init -
 #
 
 # liquibase
-LIQUIBASE_HOME="/opt/homebrew/opt/liquibase/libexec"
+if [[ $(uname) == "Darwin" ]]; then
+    # macOS
+    LIQUIBASE_HOME="${brew --prefix}/opt/liquibase/libexec"
+fi
 
 #
 # zsh completions
@@ -101,5 +118,8 @@ LIQUIBASE_HOME="/opt/homebrew/opt/liquibase/libexec"
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # git-extras completions
-source /opt/homebrew/opt/git-extras/share/git-extras/git-extras-completion.zsh
+if [[ $(uname) == "Darwin" ]]; then
+    # macOS
+    source ${brew --prefix}/opt/git-extras/share/git-extras/git-extras-completion.zsh
+fi
 
