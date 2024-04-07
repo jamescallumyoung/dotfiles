@@ -87,6 +87,9 @@ tre() { command tre "$@" -e && source "/tmp/tre_aliases_$USER" 2>/dev/null; }
 
 # nvm
 # nothing to do; we use the zsh-nvm plugin to layz-load nvm
+
+# node
+# we store the current version of node so that coc.nvim can find it (coc.nvim cannot call nvm directly)
 export NVM_CURRENT_ON_START=$(nvm which current)
 
 # thefuck
@@ -105,8 +108,7 @@ _evalcache jenv init -
 #
 
 # liquibase
-if [[ $(uname) == "Darwin" ]]; then
-    # macOS
+if [[ $(uname) == "Darwin" ]]; then # macOS
     LIQUIBASE_HOME="$(brew --prefix)/opt/liquibase/libexec"
 fi
 
@@ -118,8 +120,7 @@ fi
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # git-extras completions
-if [[ $(uname) == "Darwin" ]]; then
-    # macOS
-    source ${brew --prefix}/opt/git-extras/share/git-extras/git-extras-completion.zsh
+if [[ $(uname) == "Darwin" ]]; then # macOS
+    source $(brew --prefix)/opt/git-extras/share/git-extras/git-extras-completion.zsh
 fi
 
