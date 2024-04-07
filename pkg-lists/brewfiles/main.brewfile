@@ -94,6 +94,12 @@ cask "temurin11"            # java 11 - LTS until September 2024
 
 
 #
+# PYTHON 3
+#
+brew "pipx" # install pip modules in their own minimal venv
+
+
+#
 # DOCKER, K8S
 #
 

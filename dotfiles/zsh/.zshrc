@@ -120,6 +120,18 @@ fi
 # git-extras completions
 if [[ $(uname) == "Darwin" ]]; then
     # macOS
-    source ${brew --prefix}/opt/git-extras/share/git-extras/git-extras-completion.zsh
+    source $(brew --prefix)/opt/git-extras/share/git-extras/git-extras-completion.zsh
+fi
+
+# python modules (installed via pipx) completions, managed by argcomplete
+
+if command -v register-python-argcomplete > /dev/null; then
+    eval "$(register-python-argcomplete pipx)"
+else
+    echo "argcomplete not available"
+    echo "completions for python modules may not be available"
+    echo "to install argcomplete, run:"
+    echo "$ pipx install argcomplete"
+    echo "$ activate-global-python-argcomplete"
 fi
 

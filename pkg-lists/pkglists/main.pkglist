@@ -33,6 +33,7 @@ apt hub
 
 # nothing for java or node or docker
 # or most IDEs
+apt pipx
 
 # select IDEs
 snap-classic code
