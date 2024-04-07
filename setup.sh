@@ -107,19 +107,19 @@ if [ $DO_INSTALL_PKGS = true ]; then
       cat $MAIN_PKGLIST_PATH | pkglist parse -Up apt \
           | xargs $(pkglist get-script -p apt -ys)
 
-      # note: flatpak is currently unable to install multiple packages at once
-      #       we have to invoke `flatpak install` once for each package
+      # note: snap and flatpak are currently unable to install multiple
+      #       packages at once. we have to invoke the install commands once for
+      #       each package.
+      #
+      # note: snap and flatpak both error if the package isn't available in the
+      #       current architecture, so we must disable `set -e`
 
       echo "${BLUE}--- flatpak ---${NC}"
+      set +e
       cat $MAIN_PKGLIST_PATH | pkglist parse -Up flatpak \
           | awk '{OFS=ORS; $1=$1}1' \
           | while read line ; do $(pkglist get-script -p flatpak -ys) $line ; done
-
-      # note: snap is currently unable to install multiple packages at once
-      #       we have to invoke `snap install` once for each package
-      #
-      # note: snap errors is the package isn't available on this architecture
-      #       so we must disable `set -e`
+      set -e
 
       echo "${BLUE}--- snap ---${NC}"
       set +e
