@@ -3,3 +3,8 @@
 # we need git to clone the rest of this repo
 # macOS may ship with git, but we want a brew installed version
 brew "git"
+
+# we need node to install the pkglist-cli package, and run the pkglist command
+# we will use NVM to manage node later, but this provides a quick way to get started
+brew "node"
+

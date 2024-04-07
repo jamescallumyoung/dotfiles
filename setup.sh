@@ -1,5 +1,6 @@
 #!/usr/bin/env sh
 
+BLUE='\033[0;34m'
 GREEN='\033[0;32m'
 RED='\033[0;31m'
 NC='\033[0m' # No color
@@ -13,6 +14,7 @@ set -e
 
 # these paths are relative to the repo path provided as an arg
 MAIN_BREWFILE="pkg-lists/brewfiles/main.brewfile"
+MAIN_PKGLIST="pkg-lists/pkglists/main.pkglist"
 STOW_DIR_NAME="dotfiles"
 
 ##
@@ -68,7 +70,7 @@ if [ -z $REPO_PATH ]; then
   exit 1
 fi
 
-echo "Using repo path: $REPO_PATH"
+echo "${BLUE}Using repo path: $REPO_PATH${NC}"
 
 #
 # INSTALL PACKAGES WITH BREW
@@ -80,23 +82,81 @@ if [ $DO_INSTALL_PKGS = true ]; then
       MAIN_BREWFILE_PATH="$REPO_PATH/$MAIN_BREWFILE"
       echo "-----------------------------------------------------"
       echo "${GREEN}Installing Packages...${NC}"
-      echo "Using homebrew"
-      echo "From package list $MAIN_BREWFILE_PATH.${NC}"
-      echo "Note: any failed installs should be manually corrected after this script has run"
-      echo "This step may take some time..."
-      cat $MAIN_BREWFILE_PATH | brew bundle install --file=- >/dev/null
+      echo "${BLUE}Using homebrew.${NC}"
+      echo "${BLUE}From brewfile $MAIN_BREWFILE_PATH.${NC}"
+      echo "${BLUE}This step may take some time...${NC}"
+
+      cat $MAIN_BREWFILE_PATH | brew bundle install --file=-
+
+      echo "${GREEN}...done!${NC}"
+      echo "${BLUE}Note: any failed installs should be manually corrected after this script has run.${NC}"
+      ;;
+    pkglist)
+      MAIN_PKGLIST_PATH="$REPO_PATH/$MAIN_PKGLIST"
+      echo "-----------------------------------------------------"
+      echo "${GREEN}Installing Packages...${NC}"
+      echo "${BLUE}Using pkglist-cli (APT, Flatpak, and Snap).${NC}"
+      echo "${BLUE}From pkglist $MAIN_PKGLIST_PATH.${NC}"
+      echo "${BLUE}This step may take some time...${NC}"
+
+      echo "${BLUE}--- pkglist ---${NC}"
+      sudo npm i -g pkglist-cli
+
+      echo "${BLUE}--- apt (repos) ---${NC}"
+      sudo apt update
+      cat $MAIN_PKGLIST_PATH | pkglist parse -Up apt-repo \
+          | xargs $(pkglist get-script -p apt-repo -ys)
+
+      echo "${BLUE}--- apt ---${NC}"
+      sudo apt update
+      cat $MAIN_PKGLIST_PATH | pkglist parse -Up apt \
+          | xargs $(pkglist get-script -p apt -ys)
+
+      # note: snap and flatpak are currently unable to install multiple
+      #       packages at once. we have to invoke the install commands once for
+      #       each package.
+      #
+      # note: snap and flatpak both error if the package isn't available in the
+      #       current architecture, so we must disable `set -e`
+
+      echo "${BLUE}--- flatpak ---${NC}"
+      set +e
+      cat $MAIN_PKGLIST_PATH | pkglist parse -Up flatpak \
+          | awk '{OFS=ORS; $1=$1}1' \
+          | while read line ; do $(pkglist get-script -p flatpak -ys) $line ; done
+      set -e
+
+      echo "${BLUE}--- snap ---${NC}"
+      set +e
+      cat $MAIN_PKGLIST_PATH | pkglist parse -Up snap \
+          | awk '{OFS=ORS; $1=$1}1' \
+          | while read line ; do $(pkglist get-script -p snap -ys) $line ; done
+      set -e
+
+      echo "${BLUE}--- snap --classic ---${NC}"
+      set +e
+      cat $MAIN_PKGLIST_PATH | pkglist parse -Up snap-classic \
+          | awk '{OFS=ORS; $1=$1}1' \
+          | while read line ; do $(pkglist get-script -p snap-classic -ys) $line ; done
+      set =e
+
+      echo "${GREEN}...done!${NC}"
+      echo "${BLUE}Note: any failed installs should be manually corrected after this script has run${NC}"
+
       ;;
     *)
       echo "-----------------------------------------------------"
       echo "${RED}Cannot install packages. Specified package manager is not supported.${NC}"
       echo "${RED}Package manager is: \"$INSTALL_PKGS_WITH\".${NC}"
+      echo "${RED}Supported managers are: \"brew\" and \"pkglist\".${NC}"
   esac
 else
   echo "-----------------------------------------------------"
   echo "${GREEN}Skipping package install.${NC}"
-  echo "(Enable this step with the -p flag. Disable with -P.)"
-  echo "(The -p flag expects an argument: the package manager to use.)"
-  echo "(Set -p to \"brew\" to use homebrew.)"
+  echo "${BLUE}(Enable this step with the -p flag. Disable with -P.)${NC}"
+  echo "${BLUE}(The -p flag expects an argument: the package manager to use.)${NC}"
+  echo "${BLUE}(Set -p to \"brew\" to use homebrew.)${NC}"
+  echo "${BLUE}(Set -p to \"apt+flatpak+snap\" to use APT, Flatpak, and Snap.)${NC}"
 fi
 
 #
@@ -108,7 +168,7 @@ if [ $DO_INSTALL_DOTFILES = true ]; then
   echo "${GREEN}Running GNU Stow for each Stow package...${NC}"
 
   STOW_DIR_PATH="$REPO_PATH/$STOW_DIR_NAME"
-  echo "Using stow directory $STOW_DIR_PATH"
+  echo "${BLUE}Using stow directory $STOW_DIR_PATH${NC}"
 
   # stow is invoked once for each package in ./dotfiles
 
@@ -116,10 +176,12 @@ if [ $DO_INSTALL_DOTFILES = true ]; then
   stow --dir=$STOW_DIR_PATH --target=$HOME git
   stow --dir=$STOW_DIR_PATH --target=$HOME nvim
   stow --dir=$STOW_DIR_PATH --target=$HOME zsh
+
+  echo "${GREEN}...done!${NC}"
 else
   echo "-----------------------------------------------------"
   echo "${GREEN}Skipping dotfiles.${NC}"
-  echo "(Enable this step with the -d flag. Disable with -D.)"
+  echo "${BLUE}(Enable this step with the -d flag. Disable with -D.)${NC}"
 fi
 
 #
@@ -133,12 +195,15 @@ if [ $DO_MISC_STEPS = true ]; then
   # assumes 'which zsh' will return brew's zsh. (it should!) you can check with 'brew doctor'
   sudo sh -c "echo $(which zsh) >> /etc/shells"
   chsh -s $(which zsh)
+  
+  echo "${GREEN}...done!${NC}"
 else
   echo "-----------------------------------------------------"
   echo "${GREEN}Skipping misc steps.${NC}"
-  echo "(Enable this step with the -m flag. Disable with -M.)"
+  echo "${BLUE}(Enable this step with the -m flag. Disable with -M.)${NC}"
 fi
 
 echo "-----------------------------------------------------"
+echo "${GREEN}All steps are now complete.${NC}"
 echo "${GREEN}Done!${NC}"
 

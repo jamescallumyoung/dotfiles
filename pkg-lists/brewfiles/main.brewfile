@@ -3,6 +3,7 @@
 #
 
 brew "stow"     # for managing dotfiles
+brew "node"     # for running pkglist
 
 
 
@@ -76,7 +77,7 @@ brew "hub"
 #
 
 # nothing; we install node with antigen -> zsh-nvm -> nvm -> node
-
+# brew "node" # we also install node directly, in the system setup section
 
 
 #

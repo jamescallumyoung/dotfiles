@@ -4,9 +4,23 @@
 autoload -Uz compinit && compinit
 
 # setup antigen first
-FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
-source $(brew --prefix)/share/antigen/antigen.zsh
-antigen init $HOME/.antigenrc
+if [[ $(uname) == "Darwin" ]]; then
+    # macOS
+    fpath+=("$(brew --prefix)/share/zsh/site-functions")
+    source $(brew --prefix)/share/antigen/antigen.zsh
+    antigen init $HOME/.antigenrc
+
+elif command -v apt > /dev/null; then
+    # debian linux
+    fpath+=("/usr/local/share/zsh/site-functions")
+    source $(dpkg -L zsh-antigen | grep antigen.zsh)
+    antigen init $HOME/.antigenrc
+
+else
+    echo 'Unknown OS!'
+    echo 'zsh could not be set up correctly.'
+    echo 'antigen could not be set up correctly.'
+fi
 
 # terminal options; disable beeping
 unsetopt beep
@@ -21,6 +35,15 @@ setopt appendhistory autocd
 #
 # paths
 #
+
+# add paths for golang
+export GOPATH="$HOME/.gopath"   # my code -- usually ~/go but I prefer to use a hidden dir
+export GOROOT="$HOME/.go"       # golang source code
+path+=("$GOPATH/bin")           # my code, built and executable
+
+# add paths for yarn
+# (yarn global path set in .yarnrc)
+path+=("$HOME/.yarn/bin")
 
 # add shortcut commands for jetbrains toolbox apps
 path+=("$HOME/Library/Application Support/JetBrains/Toolbox/scripts")
@@ -74,7 +97,7 @@ alias f="fuck"
 _evalcache hub alias -s
 
 # jenv; java environment manager
-export PATH="$HOME/.jenv/bin:$PATH"
+path+=("$HOME/.jenv/bin")
 _evalcache jenv init -
 
 #
@@ -82,7 +105,10 @@ _evalcache jenv init -
 #
 
 # liquibase
-LIQUIBASE_HOME="/opt/homebrew/opt/liquibase/libexec"
+if [[ $(uname) == "Darwin" ]]; then
+    # macOS
+    LIQUIBASE_HOME="$(brew --prefix)/opt/liquibase/libexec"
+fi
 
 #
 # zsh completions
@@ -92,5 +118,8 @@ LIQUIBASE_HOME="/opt/homebrew/opt/liquibase/libexec"
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # git-extras completions
-source /opt/homebrew/opt/git-extras/share/git-extras/git-extras-completion.zsh
+if [[ $(uname) == "Darwin" ]]; then
+    # macOS
+    source ${brew --prefix}/opt/git-extras/share/git-extras/git-extras-completion.zsh
+fi
 
