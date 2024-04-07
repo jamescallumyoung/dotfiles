@@ -40,6 +40,8 @@ alias webs="webstorm ./"
 alias idea="idea ./"
 alias tf="terraform"
 
+tre() { command tre "$@" -e && source "/tmp/tre_aliases_$USER" 2>/dev/null; }
+
 #
 # setup eval caching (lazy-loading) for tool that need `eval`ing 
 # (cached `eval`s can be cleared with `$ _evalcache_clear`)

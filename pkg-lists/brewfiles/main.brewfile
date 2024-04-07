@@ -17,6 +17,7 @@ brew "jq"
 brew "pick"
 brew "ripgrep"  # better search (grep, etc.)
 brew "thefuck"
+brew "tre"      # better tree, with auto-aliasing
 brew "ugrep"    # better grep, egrep, and fgrep
 brew "yq"       # jq for yaml and xml
 
