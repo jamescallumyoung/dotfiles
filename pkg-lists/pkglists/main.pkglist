@@ -51,10 +51,10 @@ snap insomnia
 snap discord
 apt firefox
 # n.b. firefox may be better from flatpak or snap
-flatpak fi.skyjake.Lagrange.flatpakref
-flatpak tv.plex.PlexDesktop.flatpakref
-flatpak io.github.janbar.noson.flatpakref
+flatpak https://flathub.org/repo/appstream/fi.skyjake.Lagrange.flatpakref
+flatpak https://flathub.org/repo/appstream/tv.plex.PlexDesktop.flatpakref
+flatpak https://flathub.org/repo/appstream/io.github.janbar.noson.flatpakref
 snap spotify
-flatpak fr.handbrake.ghb.flatpakref
+flatpak https://flathub.org/repo/appstream/fr.handbrake.ghb.flatpakref
 apt vlc
 
