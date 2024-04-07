@@ -107,9 +107,13 @@ if [ $DO_INSTALL_PKGS = true ]; then
       cat $MAIN_PKGLIST_PATH | pkglist parse -Up apt \
           | xargs $(pkglist get-script -p apt -ys)
 
+      # note: flatpak is currently unable to install multiple packages at once
+      #       we have to invoke `flatpak install` once for each package
+
       echo "${BLUE}--- flatpak ---${NC}"
       cat $MAIN_PKGLIST_PATH | pkglist parse -Up flatpak \
-          | xargs $(pkglist get-script -p flatpak -ys)
+          | awk '{OFS=ORS; $1=$1}1' \
+          | while read line ; do $(pkglist get-script -p flatpak -ys) $line ; done
 
       # note: snap is currently unable to install multiple packages at once
       #       we have to invoke `snap install` once for each package
