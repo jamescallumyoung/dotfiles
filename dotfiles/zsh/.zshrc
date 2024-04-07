@@ -1,3 +1,8 @@
+# use the compinit fn to enable zsh's advanced completion system.
+# this should be done once, and early.
+# running multiple times can cause significant slowdown.
+autoload -Uz compinit && compinit
+
 # setup antigen first
 FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
 source $(brew --prefix)/share/antigen/antigen.zsh
