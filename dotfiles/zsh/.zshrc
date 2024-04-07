@@ -31,6 +31,16 @@ alias grep="ugrep -G"
 alias egrep="ugrep -E"
 alias fgrep="ugrep -F"
 
+if [[ $(uname) == "Darwin" ]]; then
+    # on macOS, use the GNU versions provided by brew
+    # Get list of gnubin directories
+    GNUBINS="$(find $(brew --prefix)/opt -type d -follow -name gnubin -print)";
+    
+    for bindir in ${GNUBINS[@]}; do
+        export path=($bindir $path) # prepend so they take prio
+    done;
+fi
+
 # Aliases for Vim
 alias vi="nvim"
 alias vim="nvim"
