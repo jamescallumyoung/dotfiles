@@ -107,7 +107,7 @@ _evalcache jenv init -
 # liquibase
 if [[ $(uname) == "Darwin" ]]; then
     # macOS
-    LIQUIBASE_HOME="${brew --prefix}/opt/liquibase/libexec"
+    LIQUIBASE_HOME="$(brew --prefix)/opt/liquibase/libexec"
 fi
 
 #
