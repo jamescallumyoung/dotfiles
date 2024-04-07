@@ -1,11 +1,5 @@
-# This file is a linux-ified copy of the brewfile.
-
-# Packages are prefixed with the name of the package manager needed
-# to install each of them. The install script handles calling the correct
-# package manager.
-
-# (Comments must be complete lines.)
-
+# This file is a pkglist-ified copy of the brewfile.
+# If updating, try to keep in sync with ../brewfiles/main.brewfile.
 
 # required for sys setup
 apt stow
@@ -41,6 +35,8 @@ apt hub
 
 # select IDEs
 snap-classic code
+# neovim has its own repo - the versions in ubuntu's repos are old
+apt-repo ppa:neovim-ppa/stable
 apt neovim
 snap insomnia
 

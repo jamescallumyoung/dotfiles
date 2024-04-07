@@ -102,6 +102,11 @@ if [ $DO_INSTALL_PKGS = true ]; then
       echo "${BLUE}--- pkglist ---${NC}"
       sudo npm i -g pkglist-cli
 
+      echo "${BLUE}--- apt (repos) ---${NC}"
+      sudo apt update
+      cat $MAIN_PKGLIST_PATH | pkglist parse -Up apt-repo \
+          | xargs $(pkglist get-script -p apt-repo -ys)
+
       echo "${BLUE}--- apt ---${NC}"
       sudo apt update
       cat $MAIN_PKGLIST_PATH | pkglist parse -Up apt \
