@@ -35,9 +35,8 @@ apt hub
 
 # select IDEs
 snap-classic code
-# neovim has its own repo - the versions in ubuntu's repos are old
-apt-repo ppa:neovim-ppa/stable
-apt neovim
+snap-classic neovim
+# n.b. neovim is available via apt but versions in the ubuntu and neovim-ppa/stable repos are old
 snap insomnia
 
 # macos utils not included
