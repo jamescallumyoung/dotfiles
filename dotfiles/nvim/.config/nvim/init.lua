@@ -16,7 +16,7 @@ vim.o.cursorline = false    -- Highlight the current line
 vim.o.termguicolors = true  -- Enable 24-bit RGB colors
 vim.o.showcmd = true
 
-vim.g.coc_node_path = "~/.nvm/versions/node/v20.11.0/bin/node"
+vim.g.coc_node_path = vim.fn.trim(vim.fn.system("echo $NVM_CURRENT_ON_START"))
 
 -- Syntax highlighting and filetype plugins
 -- vim.cmd('syntax enable')

@@ -47,6 +47,7 @@ alias tf="terraform"
 
 # nvm
 # nothing to do; we use the zsh-nvm plugin to layz-load nvm
+export NVM_CURRENT_ON_START=$(nvm which current)
 
 # thefuck
 _evalcache thefuck --alias
