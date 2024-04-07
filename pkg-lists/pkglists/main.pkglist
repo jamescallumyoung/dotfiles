@@ -3,6 +3,7 @@
 
 # required for sys setup
 apt stow
+snap node
 
 # modern shell utils
 apt bat
