@@ -44,7 +44,8 @@ Homebrew and pkglist are invoked by the `setup.sh` script's "install packages" s
 ### About pkglist
 
 The pkglist format aims to provide Brewfile-like functionality to the Linux package managers I commonly use:
-APT, Flatpak, and Snap. You can learn more about the pkglist project by reading [the spec](https://github.com/jamescallumyoung/pkglist-spec).
+[APT](https://wiki.debian.org/Apt), [Flatpak](https://flatpak.org/), and [Snap](https://snapcraft.io/about).
+You can learn more about the pkglist project by reading [the spec](https://github.com/jamescallumyoung/pkglist-spec).
 
 ---
 
@@ -119,6 +120,4 @@ Note: Your password may be required at multiple stages. Some packages may need o
 
 After running `setup.sh`, there are additional manual steps you may want to take.
 These are defined in [docs/post-setup-manual-steps.md](./docs/post-setup-manual-steps.md).
-
----
 
