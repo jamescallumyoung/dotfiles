@@ -3,17 +3,33 @@
 Dotfiles are the files used to configure macOS, Linux and Windows environments.
 They're highly specific to the user. These are [@jamescallumyoung](https://github.com/jamescallumyoung)'s.
 
-This repo does three things, and each step can be toggled on or off:
+This repo provides a `setup.sh` script that can do three things:
 
-- installs dotfiles
-- installs packages from a brewfile or pkglist
-- performs additional miscellaneous actions to complete the setup
-
-Follow the installation guide below to copy this setup to a new device.
+- install dotfiles
+- install packages from a `.brewfile` or `.pkglist`
+- perform miscellaneous actions to complete the setup
 
 ---
 
-## Regarding Packages
+## Installing Dotfiles
+
+GNU Stow is used to manage the dotfiles in this repo.
+It links them into their expected locations in the system, allowing the source files to remain in the Git repo so they can be version controlled.
+
+This repo contains separate directories for each technology group, such as _zsh_ or _node_, to keep things organised.
+
+This repo is structured so that:
+
+- `./dotfiles` is the _stow directory_,
+- `./dotfiles/<package_name>` are _package directories_,
+- `~` (a.k.a: `$HOME`) is the _target directory_.
+
+You can learn more about what these terms mean in the [the GNU Stow docs](https://www.gnu.org/software/stow/manual/stow.html#Terminology).
+
+Stow is invoked by the `setup.sh` script's "install dotfiles" step.
+
+
+## Installing Packages
 
 This repo contains a process for installing packages.
 Packages are specified in a handful of files, and installed by `setup.sh`.
@@ -21,7 +37,14 @@ Packages are specified in a handful of files, and installed by `setup.sh`.
 Which file is used depends on what package manager is selected:
 
 - `.brewfile`s are used by [Homebrew](https://brew.sh/), "macOS's missing package manager".
-- `.pkglist`s are used by [pkglist-cli][1], a custom tool to handle installing packages with numerous package managers.
+- `.pkglist`s are used by [pkglist](https://github.com/jamescallumyoung/pkglist-cli-ts), a custom tool to handle installing packages with numerous package managers.
+
+Homebrew and pkglist are invoked by the `setup.sh` script's "install packages" step.
+
+### About pkglist
+
+The pkglist format aims to provide Brewfile-like functionality to the Linux package managers I commonly use:
+APT, Flatpak, and Snap. You can learn more about the pkglist project by reading [the spec](https://github.com/jamescallumyoung/pkglist-spec).
 
 ---
 
@@ -31,66 +54,20 @@ The guide below outlines some manual steps that need to be done, followed by a `
 
 Note: This guide was created to set up a new macOS device. Linux and Windows are still experimental.
 
-### Install Package Managers
+### Prerequisites
 
-Which package manager you need is up to you. For macOS, Homebrew is recommended.
-For Debian-based Linux, APT, Flatpak, and Snap can all be used together. Homebrew can also be used on Linux.
+Before `setup.sh` can be run, there are some prerequisites that need to be met:
 
-To proceed, you need to have every package manager you want to use installed.
+- Package managers need to be available. See: [docs/installing-package-managers.md](./docs/installing-package-managers.md).
+- Git must be installed. See: [docs/installing-git.md](./docs/installing-git.md).
 
-#### Homebrew
+If running the "install packages" step with the `-p pkglist` option:
 
-We use Homebrew to install packages on macOS. Install it using the install script:
+- Node.js must be installed. See: [docs/installing-nodejs.md](./docs/installing-nodejs.md).
 
-````shell
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/jamescallumyoung/dotfiles/main/installers/brew.install.sh)"
-````
+If running the "install dotfiles" step:
 
-Then check Homebrew is installed correctly with `brew doctor`.
-We're especially interested in checking to make sure packages installed by Homebrew take priority over the versions shipped by Apple.
-
-#### APT, Flatpak, Snap
-
-Apt should already be installed.
-You should check your distro's guides for installing Flatpak and Snap.
-
-### Install packages needed for setup
-
-#### Git
-
-We need Git installed to complete the setup. Install it with:
-
-```
-# for Homebrew:
-brew install --formulae git
-
-# for pkglist:
-apt install -y git
-```
-
-#### pkglist-cli
-
-To use `.pkglist` files, we need a pkglist parser, like the one provided by [pkglist-cli][1].
-To use it, we need to first install Node.js.
-We will install NVM later, but we install Node.js directly in this step for simplicity.
-
-```shell
-sudo apt update && sudo apt install nodejs$$$
-```
-
-Now, we can use pkglist-cli via NPX with:
-
-```shell
-npx -p pkglist-cli -c "pkglist"
-```
-
-Or, install it and call it directly:
-
-```shell
-npm i -g pkglist-cli
-
-pkglist
-```
+- GNU Stow must be installed. See: [docs/installing-gnu-stow.md](./docs/installing-gnu-stow.md).
 
 ### Clone this repo
 
@@ -107,96 +84,41 @@ git clone https://github.com/jamescallumyoung/dotfiles.git $HOME/.dotfilesrepo
 
 ### Run the setup script
 
-The rest of the setup process is automatic. Just run the setup script in `~/.dotfilesrepo`.
-
-The script expects some arguments to enable each step, and select the package manager to use.
-
-**Args:**
-
-- The -r arg is the location of the dotfiles repo
-- The -d and -m args enable the dotfiles, and misc steps.
-- The -p arg is the package manager to use:
-  - brew, or
-  - pkglist (APT, Flatpak, and Snap)
+The rest of the setup process is automatic.
+Just run the setup script, and provide the required `-r` option:
 
 ```shell
-chmod +x "$HOME/.dotfilesrepo/setup.sh"
+cd $HOME/.dotfilesrepo
 
-/bin/bash -c "$HOME/.dotfilesrepo/setup.sh -dmp "A-PKG-MGR" -r \"$HOME/.dotfilesrepo\""
+chmod +x setup.sh
+
+./setup.sh -r $(pwd)
+````
+
+Running as above will perform a no-op run.
+The script expects some options to enable each step, and select the package manager to use:
+
+**Options:**
+
+- `-r` is the location of the dotfiles repo.
+- `-d` enables the "install dotfiles" step.
+- `-m` enables the "misc tasks" step.
+- `-p` enables the "install packages" step. It expects a value which indicates the package manager to use:
+  - `-p brew` selects Homebrew,
+  - `-p pkglist` selects pkglist, which supports APT, Flatpak, and Snap.
+
+```shell
+# e.g.
+cd $HOME/.dotfilesrepo
+./setup.sh -r $(pwd) -dmp brew
 ```
 
 Note: Your password may be required at multiple stages. Some packages may need options to be selected (esp. when using Flatpak). This is not a script you can run unattended.
 
 ### Additional manual steps
 
-#### On macOS, set Terminal.app's default shell
-
-macOS's default terminal, Terminal.app, may use a different shell. We want to change this even though we don't use Terminal.app.
-To change this, open Terminal.app, press SPACE+. and set _General_ -> _Shells open with_ to "Default login shell".
-
-#### SSH Keys
-
-This repo doesn't handle SSH keys at all. You'll need to set them up yourself for every service that uses them, including git.
-
-#### Files with secrets
-
-This repo doesn't handle handle files that include secrets, such as `~/.npmrc`. You'll need to create these yourself.
-
-Suggested files:
-- `~/npmrc`
-- kube configs
-
-#### Github login
-
-Generate a new SSH key (with `ssh-keygen -t ed25519 -a 100` -C "A_GOOD_KEY_NAME_HERE"`) for use with GitHub, and upload it to GitHub via their website.
-
-Then, add the following to `.ssh/config`:
-
-```
-Host github.com
- HostName github.com
- IdentityFile ~/.ssh/NAME_OF_YOUR_NEW_KEY
-```
-
-**Updating the dotfiles repo login:**
-
-If you want to be able to commit to the dotfiles repo from this device, you'll need to change the remote from HTTPS to SSH.
-
-#### Virtualbox on ARM macOS
-
-ARM based macOS cannot install virtualbox with brew as the ARM builds are a developer preview.
-
-To install them, download the App from the [virtualbox website](https://www.virtualbox.org/wiki/Download_Old_Builds_7_0).
+After running `setup.sh`, there are additional manual steps you may want to take.
+These are defined in [docs/post-setup-manual-steps.md](./docs/post-setup-manual-steps.md).
 
 ---
 
-## About Stow
-
-GNU Stow is used to manage the dotfiles in this repo. It symlinks them into their expected locations in the system.
-The repo contains separate directories for each technology group, such as _zsh_ or _node_, to keep things organised.
-
-This repo is organized so that:
-
-- `./dotfiles` is the _stow directory_,
-- `./dotfiles/<package_name>` are _package directories_,
-- `~` (a.k.a: `$HOME`) is the _target directory_.
-
-You can learn more about what these terms mean in the [the docs](https://www.gnu.org/software/stow/manual/stow.html#Terminology).
-
-Stow is invoked by the `setup.sh` script.
-
----
-
-## About pkglist
-
-The pkglist format aims to provide Brewfile-like functionality to the Linux package managers I commonly use:
-APT, Flatpak, and Snap.
-
-`.pkglist` files can be parsed by a pkglist parser, such as [pkglist-cli][1], and then passed to the package manager.
-
-You can learn more about the pkglist project by reading [the spec][2].
-
-pkglist-cli is invoked by the `setup.sh` script.
-
-[1]: https://github.com/jamescallumyoung/pkglist-cli-ts
-[2]: https://github.com/jamescallumyoung/pkglist-spec
