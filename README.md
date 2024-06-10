@@ -66,6 +66,10 @@ If running the "install packages" step with the `-p pkglist` option:
 
 - Node.js must be installed. See: [docs/installing-nodejs.md](./docs/installing-nodejs.md).
 
+If running the "install packages" step with the `-I` option:
+
+- whiptail must be installed. See: [docs/installing-whiptail.md](./docs/installing-whiptail.md).
+
 If running the "install dotfiles" step:
 
 - GNU Stow must be installed. See: [docs/installing-gnu-stow.md](./docs/installing-gnu-stow.md).
