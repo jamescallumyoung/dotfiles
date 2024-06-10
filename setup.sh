@@ -17,46 +17,43 @@ MAIN_BREWFILE="pkg-lists/brewfiles/main.brewfile"
 MAIN_PKGLIST="pkg-lists/pkglists/main.pkglist"
 STOW_DIR_NAME="dotfiles"
 
-##
-## GET REPO LOCATION FROM ARGS
-##
+#
+# GET OPTIONS -- Read Args
+#
 
-# this script needs to know the location this repo was cloned to, to find various files that will be invoked.
-# the location is expected as the `-R` argument
+#r
+OPT_REPO_PATH=""
+#I
+OPT_INTERACTIVE=false
+
+#d
+OPT_DO_INSTALL_DOTFILES=false
+#m
+OPT_DO_MISC_STEPS=false
+#p
+OPT_DO_INSTALL_PKGS=false
+OPT_INSTALL_PKGS_WITH=""
 
 OPTIND=1 # (A POSIX variable) reset in case getopts has been used previously in the shell
 
-REPO_PATH=""
-INSTALL_PKGS_WITH=""
-DO_INSTALL_DOTFILES=false
-DO_INSTALL_PKGS=false
-DO_MISC_STEPS=false
-
 # read from the args, using getopts (from util-linux)
-while getopts "r:dDmMp:P" opt; do
+while getopts "r:Idp:m" opt; do
   case "$opt" in
     r)
-      REPO_PATH=$OPTARG
+      OPT_REPO_PATH=$OPTARG
+      ;;
+    I)
+      OPT_INTERACTIVE=true
       ;;
     d)
-      DO_INSTALL_DOTFILES=true
-      ;;
-    D)
-      DO_INSTALL_DOTFILES=false
-      ;;
-    m)
-      DO_MISC_STEPS=true
-      ;;
-    M)
-      DO_MISC_STEPS=false
+      OPT_DO_INSTALL_DOTFILES=true
       ;;
     p)
-      DO_INSTALL_PKGS=true
-      INSTALL_PKGS_WITH=$OPTARG
+      OPT_DO_INSTALL_PKGS=true
+      OPT_INSTALL_PKGS_WITH=$OPTARG
       ;;
-    P)
-      DO_INSTALL_PKGS=false
-      INSTALL_PKGS_WITH=""
+    m)
+      OPT_DO_MISC_STEPS=true
       ;;
   esac
 done
@@ -65,15 +62,62 @@ shift $((OPTIND-1))
 
 [ "${1:-}" = "--" ] && shift
 
-if [ -z $REPO_PATH ]; then
+#
+# GET OPTIONS -- Check Repo location is set
+#
+
+# this script needs to know the location this repo was cloned to, to find various files that will be invoked.
+# the location is expected as the `-R` argument
+
+if [ -z $OPT_REPO_PATH ]; then
   echo "${RED}You must provide the -r argument: -r \"PATH_TO_DOTFILES_REPO\". Exiting.${NC}"
   exit 1
 fi
 
-echo "${BLUE}Using repo path: $REPO_PATH${NC}"
+echo "${BLUE}Using repo path: $OPT_REPO_PATH${NC}"
 
 #
-# INSTALL PACKAGES WITH BREW
+# GET OPTIONS -- Vars
+#
+
+DO_INSTALL_DOTFILES=false
+DO_INSTALL_PKGS=false
+INSTALL_PKGS_WITH=""
+DO_MISC_STEPS=false
+
+#
+# GET OPTIONS -- Interactive
+#
+
+if [ $OPT_INTERACTIVE = true ]; then
+  function yesno() {
+    whiptail --yesno "$1" 0 0 3>&1 1>&2 2>&3 && echo true || echo false
+  }
+
+  DO_INSTALL_DOTFILES=$(yesno "Install Dotfiles?")
+
+  echo foo
+  DO_INSTALL_PKGS=$(yesno "Install Packages?")
+  echo foo2
+  if [ $DO_INSTALL_PKGS = true ]; then
+    echo foo3
+    INSTALL_PKGS_WITH=$(whiptail --yesno "Which package manager should be used?" 0 0 3>&1 1>&2 2>&3 --no-button "Homebrew" --yes-button "Pkglist" && echo "pkglist" || echo "brew")
+  fi
+  echo foo4
+
+  DO_MISC_STEPS=$(yesno "Do Misc Steps?")
+
+  echo "(Options set with interactive. Value provided by CLI options will be ignored.)"
+else
+  echo "(Options set with CLI options.)"
+  DO_INSTALL_DOTFILES=$OPT_DO_INSTALL_DOTFILES
+  DO_MISC_STEPS=$OPT_DO_MISC_STEPS
+  DO_INSTALL_PKGS=$OPT_DO_INSTALL_PKGS
+  INSTALL_PKGS_WITH=$OPT_INSTALL_PKGS_WITH
+fi
+
+#
+# INSTALL PACKAGES
 #
 
 if [ $DO_INSTALL_PKGS = true ]; then
