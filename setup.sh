@@ -129,7 +129,7 @@ fi
 #
 
 if [ $DO_INSTALL_DOTFILES = true ]; then
-  $OPT_REPO_PATH/scripts/install_pkgs.sh $OPT_REPO_PATH
+  $OPT_REPO_PATH/scripts/install_dotfiles.sh $OPT_REPO_PATH
 else
   echo "-----------------------------------------------------"
   log_primary "Skipping dotfiles."
