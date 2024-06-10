@@ -9,13 +9,6 @@ echo "${GREEN}Beginning setup.sh...${NC}"
 set -e
 
 #
-# SET CONFIG VALUES
-#
-
-# these paths are relative to the repo path provided as an arg
-STOW_DIR_NAME="dotfiles"
-
-#
 # GET OPTIONS -- Read Args
 #
 
@@ -130,24 +123,11 @@ else
 fi
 
 #
-# SYMLINK DOTFILES WITH GNU STOW
+# INSTALL DOTFILES
 #
 
 if [ $DO_INSTALL_DOTFILES = true ]; then
-  echo "-----------------------------------------------------"
-  echo "${GREEN}Running GNU Stow for each Stow package...${NC}"
-
-  STOW_DIR_PATH="$REPO_PATH/$STOW_DIR_NAME"
-  echo "${BLUE}Using stow directory $STOW_DIR_PATH${NC}"
-
-  # stow is invoked once for each package in ./dotfiles
-
-  stow --dir=$STOW_DIR_PATH --target=$HOME fish
-  stow --dir=$STOW_DIR_PATH --target=$HOME git
-  stow --dir=$STOW_DIR_PATH --target=$HOME nvim
-  stow --dir=$STOW_DIR_PATH --target=$HOME zsh
-
-  echo "${GREEN}...done!${NC}"
+  $OPT_REPO_PATH/scripts/install_pkgs.sh $OPT_REPO_PATH
 else
   echo "-----------------------------------------------------"
   echo "${GREEN}Skipping dotfiles.${NC}"
@@ -155,18 +135,12 @@ else
 fi
 
 #
-# CHANGE DEFAULT SHELL TO ZSH
+# MISC STEPS
+# (These are additional misc steps that we may want to perform when setting up a system.)
 #
 
 if [ $DO_MISC_STEPS = true ]; then
-  echo "-----------------------------------------------------"
-  echo "${GREEN}Changing default user shell to zsh...${NC}"
-
-  # assumes 'which zsh' will return brew's zsh. (it should!) you can check with 'brew doctor'
-  sudo sh -c "echo $(which zsh) >> /etc/shells"
-  chsh -s $(which zsh)
-  
-  echo "${GREEN}...done!${NC}"
+  $OPT_REPO_PATH/scripts/misc/change_default_shell.sh
 else
   echo "-----------------------------------------------------"
   echo "${GREEN}Skipping misc steps.${NC}"

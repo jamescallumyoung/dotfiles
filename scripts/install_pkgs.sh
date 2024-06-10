@@ -3,7 +3,7 @@
 #
 # INSTALL PACKAGES WITH BREW OR PKGLIST
 #
-# $1 = REPO_PATH: path to the pkglist or brewfile to install
+# $1 = REPO_PATH: path to the dotfiles repo
 # $2 = PKG_MANAGER: the package manager to use; either "brew" or "pkglist"
 #
 
