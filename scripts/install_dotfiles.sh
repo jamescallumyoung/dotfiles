@@ -6,17 +6,25 @@
 # $1 = REPO_PATH: path to the dotfiles repo
 #
 
-BLUE='\033[0;34m'
-GREEN='\033[0;32m'
-RED='\033[0;31m'
+REPO_PATH=$1
+
 NC='\033[0m' # No color
+log_primary() {
+  echo "\033[0;32m$1${NC}"
+}
+log_secondary() {
+  echo "\033[0;37m$1${NC}"
+}
+log_error() {
+  echo "\033[0;31m$1${NC}"
+}
 
 echo "-----------------------------------------------------"
-echo "${GREEN}Running GNU Stow for each Stow package...${NC}"
+log_primary "Running GNU Stow for each Stow package..."
 
 STOW_DIR_PATH="$REPO_PATH/dotfiles"
 
-echo "${BLUE}Using stow directory $STOW_DIR_PATH${NC}"
+log_secondary "Using stow directory $STOW_DIR_PATH"
 
 # stow is invoked once for each package in ./dotfiles
 
@@ -25,4 +33,4 @@ stow --dir=$STOW_DIR_PATH --target=$HOME git
 stow --dir=$STOW_DIR_PATH --target=$HOME nvim
 stow --dir=$STOW_DIR_PATH --target=$HOME zsh
 
-echo "${GREEN}...done!${NC}"
+log_primary "...done!"

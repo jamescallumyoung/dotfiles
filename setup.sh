@@ -1,11 +1,17 @@
 #!/usr/bin/env sh
 
-BLUE='\033[0;34m'
-GREEN='\033[0;32m'
-RED='\033[0;31m'
 NC='\033[0m' # No color
+log_primary() {
+  echo "\033[0;32m$1${NC}"
+}
+log_secondary() {
+  echo "\033[0;37m$1${NC}"
+}
+log_error() {
+  echo "\033[0;31m$1${NC}"
+}
 
-echo "${GREEN}Beginning setup.sh...${NC}"
+log_primary "Beginning setup.sh..."
 set -e
 
 #
@@ -61,11 +67,11 @@ shift $((OPTIND-1))
 # the location is expected as the `-R` argument
 
 if [ -z $OPT_REPO_PATH ]; then
-  echo "${RED}You must provide the -r argument: -r \"PATH_TO_DOTFILES_REPO\". Exiting.${NC}"
+  log_error "You must provide the -r argument: -r \"PATH_TO_DOTFILES_REPO\". Exiting."
   exit 1
 fi
 
-echo "${BLUE}Using repo path: $OPT_REPO_PATH${NC}"
+log_secondary "Using repo path: $OPT_REPO_PATH"
 
 #
 # GET OPTIONS -- Vars
@@ -87,20 +93,16 @@ if [ $OPT_INTERACTIVE = true ]; then
 
   DO_INSTALL_DOTFILES=$(yesno "Install Dotfiles?")
 
-  echo foo
   DO_INSTALL_PKGS=$(yesno "Install Packages?")
-  echo foo2
   if [ $DO_INSTALL_PKGS = true ]; then
-    echo foo3
     INSTALL_PKGS_WITH=$(whiptail --yesno "Which package manager should be used?" 0 0 3>&1 1>&2 2>&3 --no-button "Homebrew" --yes-button "Pkglist" && echo "pkglist" || echo "brew")
   fi
-  echo foo4
 
   DO_MISC_STEPS=$(yesno "Do Misc Steps?")
 
-  echo "(Options set with interactive. Value provided by CLI options will be ignored.)"
+  log_secondary "Options set with interactive. Value provided by CLI options will be ignored."
 else
-  echo "(Options set with CLI options.)"
+  log_secondary "Options set with CLI options."
   DO_INSTALL_DOTFILES=$OPT_DO_INSTALL_DOTFILES
   DO_MISC_STEPS=$OPT_DO_MISC_STEPS
   DO_INSTALL_PKGS=$OPT_DO_INSTALL_PKGS
@@ -115,11 +117,11 @@ if [ $DO_INSTALL_PKGS = true ]; then
   $OPT_REPO_PATH/scripts/install_pkgs.sh $OPT_REPO_PATH $INSTALL_PKGS_WITH
 else
   echo "-----------------------------------------------------"
-  echo "${GREEN}Skipping package install.${NC}"
-  echo "${BLUE}(Enable this step with the -p flag. Disable with -P.)${NC}"
-  echo "${BLUE}(The -p flag expects an argument: the package manager to use.)${NC}"
-  echo "${BLUE}(Set -p to \"brew\" to use homebrew.)${NC}"
-  echo "${BLUE}(Set -p to \"apt+flatpak+snap\" to use APT, Flatpak, and Snap.)${NC}"
+  log_primary "Skipping package install."
+  log_secondary "(Enable this step with the -p flag. Disable with -P.)"
+  log_secondary "(The -p flag expects an argument: the package manager to use.)"
+  log_secondary "(Set -p to \"brew\" to use homebrew.)"
+  log_secondary "(Set -p to \"apt+flatpak+snap\" to use APT, Flatpak, and Snap.)"
 fi
 
 #
@@ -130,8 +132,8 @@ if [ $DO_INSTALL_DOTFILES = true ]; then
   $OPT_REPO_PATH/scripts/install_pkgs.sh $OPT_REPO_PATH
 else
   echo "-----------------------------------------------------"
-  echo "${GREEN}Skipping dotfiles.${NC}"
-  echo "${BLUE}(Enable this step with the -d flag. Disable with -D.)${NC}"
+  log_primary "Skipping dotfiles."
+  log_secondary "(Enable this step with the -d flag. Disable with -D.)"
 fi
 
 #
@@ -143,11 +145,10 @@ if [ $DO_MISC_STEPS = true ]; then
   $OPT_REPO_PATH/scripts/misc/change_default_shell.sh
 else
   echo "-----------------------------------------------------"
-  echo "${GREEN}Skipping misc steps.${NC}"
-  echo "${BLUE}(Enable this step with the -m flag. Disable with -M.)${NC}"
+  log_secondary "Skipping misc steps."
+  log_secondary "(Enable this step with the -m flag. Disable with -M.)"
 fi
 
 echo "-----------------------------------------------------"
-echo "${GREEN}All steps are now complete.${NC}"
-echo "${GREEN}Done!${NC}"
-
+log_secondary "All steps are now complete."
+log_primary "Done!"

@@ -10,49 +10,55 @@
 REPO_PATH=$1
 PKG_MANAGER=$2
 
-BLUE='\033[0;34m'
-GREEN='\033[0;32m'
-RED='\033[0;31m'
 NC='\033[0m' # No color
+log_primary() {
+  echo "\033[0;32m$1${NC}"
+}
+log_secondary() {
+  echo "\033[0;37m$1${NC}"
+}
+log_error() {
+  echo "\033[0;31m$1${NC}"
+}
 
 case "$PKG_MANAGER" in
   brew)
     FILE="$REPO_PATH/pkg-lists/brewfiles/main.brewfile"
 
     echo "-----------------------------------------------------"
-    echo "${GREEN}Installing Packages...${NC}"
-    echo "${BLUE}Using homebrew.${NC}"
-    echo "${BLUE}From brewfile $FILE.${NC}"
-    echo "${BLUE}This step may take some time...${NC}"
+    log_primary "Installing Packages..."
+    log_secondary "Using homebrew."
+    log_secondary "From brewfile $FILE."
+    log_secondary "This step may take some time..."
 
     cat $FILE | brew bundle install --file=-
 
-    echo "${GREEN}...done!${NC}"
-    echo "${BLUE}Note: any failed installs should be manually corrected after this script has run.${NC}"
-    ;;
+    log_primary "...done!"
+    log_secondary "Note: any failed installs should be manually corrected after this script has run."
 
+    ;;
   pkglist)
     FILE="$REPO_PATH/pkg-lists/pkglists/main.pkglist"
 
     echo "-----------------------------------------------------"
-    echo "${GREEN}Installing Packages...${NC}"
-    echo "${BLUE}Using pkglist-cli (APT, Flatpak, and Snap).${NC}"
-    echo "${BLUE}From pkglist $REPO_PATH.${NC}"
-    echo "${BLUE}This step may take some time...${NC}"
+    log_primary "Installing Packages..."
+    log_secondary "Using pkglist-cli (APT, Flatpak, and Snap)."
+    log_secondary "From pkglist $REPO_PATH."
+    log_secondary "This step may take some time..."
 
     # setup
 
-    echo "${BLUE}--- pkglist ---${NC}"
+    log_secondary "--- pkglist ---"
     sudo npm i -g pkglist-cli
 
     # APT
 
-    echo "${BLUE}--- apt (repos) ---${NC}"
+    log_secondary "--- apt (repos) ---"
     sudo apt update
     cat $FILE | pkglist parse -Up apt-repo \
         | xargs $(pkglist get-script -p apt-repo -ys)
 
-    echo "${BLUE}--- apt ---${NC}"
+    log_secondary "--- apt ---"
     sudo apt update
     cat $FILE | pkglist parse -Up apt \
         | xargs $(pkglist get-script -p apt -ys)
@@ -66,7 +72,7 @@ case "$PKG_MANAGER" in
 
     # Flatpak
 
-    echo "${BLUE}--- flatpak ---${NC}"
+    log_secondary "--- flatpak ---"
     set +e
     cat $FILE | pkglist parse -Up flatpak \
         | awk '{OFS=ORS; $1=$1}1' \
@@ -75,27 +81,27 @@ case "$PKG_MANAGER" in
 
     # Snap
 
-    echo "${BLUE}--- snap ---${NC}"
+    log_secondary "--- snap ---"
     set +e
     cat $FILE | pkglist parse -Up snap \
         | awk '{OFS=ORS; $1=$1}1' \
         | while read line ; do $(pkglist get-script -p snap -ys) $line ; done
     set -e
 
-    echo "${BLUE}--- snap --classic ---${NC}"
+    log_secondary "--- snap --classic ---"
     set +e
     cat $FILE | pkglist parse -Up snap-classic \
         | awk '{OFS=ORS; $1=$1}1' \
         | while read line ; do $(pkglist get-script -p snap-classic -ys) $line ; done
     set -e
 
-    echo "${GREEN}...done!${NC}"
-    echo "${BLUE}Note: any failed installs should be manually corrected after this script has run.${NC}"
+    log_primary "...done!"
+    log_secondary "Note: any failed installs should be manually corrected after this script has run."
 
     ;;
   *)
     echo "-----------------------------------------------------"
-    echo "${RED}Cannot install packages. Specified package manager is not supported.${NC}"
-    echo "${RED}Package manager is: \"$PKG_MANAGER\".${NC}"
-    echo "${RED}Supported managers are: \"brew\" and \"pkglist\".${NC}"
+    log_error "Cannot install packages. Specified package manager is not supported."
+    log_error "Package manager is: \"$PKG_MANAGER\"."
+    log_error "Supported managers are: \"brew\" and \"pkglist\"."
 esac
