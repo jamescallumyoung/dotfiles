@@ -92,6 +92,7 @@ Just run the setup script, and provide the required `-r` option:
 cd $HOME/.dotfilesrepo
 
 chmod +x setup.sh
+chmod +x ./scripts/*
 
 ./setup.sh -r $(pwd)
 ````

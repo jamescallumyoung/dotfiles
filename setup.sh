@@ -13,8 +13,6 @@ set -e
 #
 
 # these paths are relative to the repo path provided as an arg
-MAIN_BREWFILE="pkg-lists/brewfiles/main.brewfile"
-MAIN_PKGLIST="pkg-lists/pkglists/main.pkglist"
 STOW_DIR_NAME="dotfiles"
 
 #
@@ -121,79 +119,7 @@ fi
 #
 
 if [ $DO_INSTALL_PKGS = true ]; then
-  case "$INSTALL_PKGS_WITH" in
-    brew)
-      MAIN_BREWFILE_PATH="$REPO_PATH/$MAIN_BREWFILE"
-      echo "-----------------------------------------------------"
-      echo "${GREEN}Installing Packages...${NC}"
-      echo "${BLUE}Using homebrew.${NC}"
-      echo "${BLUE}From brewfile $MAIN_BREWFILE_PATH.${NC}"
-      echo "${BLUE}This step may take some time...${NC}"
-
-      cat $MAIN_BREWFILE_PATH | brew bundle install --file=-
-
-      echo "${GREEN}...done!${NC}"
-      echo "${BLUE}Note: any failed installs should be manually corrected after this script has run.${NC}"
-      ;;
-    pkglist)
-      MAIN_PKGLIST_PATH="$REPO_PATH/$MAIN_PKGLIST"
-      echo "-----------------------------------------------------"
-      echo "${GREEN}Installing Packages...${NC}"
-      echo "${BLUE}Using pkglist-cli (APT, Flatpak, and Snap).${NC}"
-      echo "${BLUE}From pkglist $MAIN_PKGLIST_PATH.${NC}"
-      echo "${BLUE}This step may take some time...${NC}"
-
-      echo "${BLUE}--- pkglist ---${NC}"
-      sudo npm i -g pkglist-cli
-
-      echo "${BLUE}--- apt (repos) ---${NC}"
-      sudo apt update
-      cat $MAIN_PKGLIST_PATH | pkglist parse -Up apt-repo \
-          | xargs $(pkglist get-script -p apt-repo -ys)
-
-      echo "${BLUE}--- apt ---${NC}"
-      sudo apt update
-      cat $MAIN_PKGLIST_PATH | pkglist parse -Up apt \
-          | xargs $(pkglist get-script -p apt -ys)
-
-      # note: snap and flatpak are currently unable to install multiple
-      #       packages at once. we have to invoke the install commands once for
-      #       each package.
-      #
-      # note: snap and flatpak both error if the package isn't available in the
-      #       current architecture, so we must disable `set -e`
-
-      echo "${BLUE}--- flatpak ---${NC}"
-      set +e
-      cat $MAIN_PKGLIST_PATH | pkglist parse -Up flatpak \
-          | awk '{OFS=ORS; $1=$1}1' \
-          | while read line ; do $(pkglist get-script -p flatpak -ys) $line ; done
-      set -e
-
-      echo "${BLUE}--- snap ---${NC}"
-      set +e
-      cat $MAIN_PKGLIST_PATH | pkglist parse -Up snap \
-          | awk '{OFS=ORS; $1=$1}1' \
-          | while read line ; do $(pkglist get-script -p snap -ys) $line ; done
-      set -e
-
-      echo "${BLUE}--- snap --classic ---${NC}"
-      set +e
-      cat $MAIN_PKGLIST_PATH | pkglist parse -Up snap-classic \
-          | awk '{OFS=ORS; $1=$1}1' \
-          | while read line ; do $(pkglist get-script -p snap-classic -ys) $line ; done
-      set =e
-
-      echo "${GREEN}...done!${NC}"
-      echo "${BLUE}Note: any failed installs should be manually corrected after this script has run${NC}"
-
-      ;;
-    *)
-      echo "-----------------------------------------------------"
-      echo "${RED}Cannot install packages. Specified package manager is not supported.${NC}"
-      echo "${RED}Package manager is: \"$INSTALL_PKGS_WITH\".${NC}"
-      echo "${RED}Supported managers are: \"brew\" and \"pkglist\".${NC}"
-  esac
+  $OPT_REPO_PATH/scripts/install_pkgs.sh $OPT_REPO_PATH $INSTALL_PKGS_WITH
 else
   echo "-----------------------------------------------------"
   echo "${GREEN}Skipping package install.${NC}"
