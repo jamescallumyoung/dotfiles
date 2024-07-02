@@ -51,21 +51,23 @@ case "$PKG_MANAGER" in
     log_secondary "--- pkglist ---"
     sudo npm i -g pkglist-cli
 
+    # note: we could install from all package managers in one step but
+    #       separating them out like this allows us to do some more
+    #       verbose logging.
+
     # APT
 
     log_secondary "--- apt (repos) ---"
     sudo apt update
-    cat $FILE | pkglist parse -Up apt-repo \
-        | xargs $(pkglist get-script -p apt-repo -ys)
+    cat $FILE | pkglist exec --prefix apt-repo --yes
 
     log_secondary "--- apt ---"
     sudo apt update
-    cat $FILE | pkglist parse -Up apt \
-        | xargs $(pkglist get-script -p apt -ys)
+    cat $FILE | pkglist exec --prefix apt --yes
 
     # note: snap and flatpak are currently unable to install multiple
     #       packages at once. we have to invoke the install commands once for
-    #       each package.
+    #       each package. (pkglist-cli handles this for us.)
     #
     # note: snap and flatpak both error if the package isn't available in the
     #       current architecture, so we must disable `set -e`
@@ -74,25 +76,19 @@ case "$PKG_MANAGER" in
 
     log_secondary "--- flatpak ---"
     set +e
-    cat $FILE | pkglist parse -Up flatpak \
-        | awk '{OFS=ORS; $1=$1}1' \
-        | while read line ; do $(pkglist get-script -p flatpak -ys) $line ; done
+    cat $FILE | pkglist exec --prefix flatpak --yes
     set -e
 
     # Snap
 
     log_secondary "--- snap ---"
     set +e
-    cat $FILE | pkglist parse -Up snap \
-        | awk '{OFS=ORS; $1=$1}1' \
-        | while read line ; do $(pkglist get-script -p snap -ys) $line ; done
+    cat $FILE | pkglist exec --prefix snap --yes
     set -e
 
     log_secondary "--- snap --classic ---"
     set +e
-    cat $FILE | pkglist parse -Up snap-classic \
-        | awk '{OFS=ORS; $1=$1}1' \
-        | while read line ; do $(pkglist get-script -p snap-classic -ys) $line ; done
+    cat $FILE | pkglist exec --prefix snap-classic --yes
     set -e
 
     log_primary "...done!"
