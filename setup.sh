@@ -1,9 +1,15 @@
 #!/usr/bin/env sh
 
 NC='\033[0m' # No color
-log_primary() { echo "\033[0;32m$1${NC}" }
-log_secondary() { echo "\033[0;37m$1${NC}" }
-log_error() { echo "\033[0;31m$1${NC}" }
+log_primary() {
+  echo "\033[0;32m$1${NC}"
+}
+log_secondary() {
+  echo "\033[0;37m$1${NC}"
+}
+log_error() {
+  echo "\033[0;31m$1${NC}"
+}
 
 log_primary "Beginning setup.sh..."
 set -e
