@@ -1,15 +1,9 @@
 #!/usr/bin/env sh
 
 NC='\033[0m' # No color
-log_primary() {
-  echo "\033[0;32m$1${NC}"
-}
-log_secondary() {
-  echo "\033[0;37m$1${NC}"
-}
-log_error() {
-  echo "\033[0;31m$1${NC}"
-}
+log_primary() { echo "\033[0;32m$1${NC}" }
+log_secondary() { echo "\033[0;37m$1${NC}" }
+log_error() { echo "\033[0;31m$1${NC}" }
 
 log_primary "Beginning setup.sh..."
 set -e
@@ -18,18 +12,12 @@ set -e
 # GET OPTIONS -- Read Args
 #
 
-#r
-OPT_REPO_PATH=""
-#I
-OPT_INTERACTIVE=false
-
-#d
-OPT_DO_INSTALL_DOTFILES=false
-#m
-OPT_DO_MISC_STEPS=false
-#p
-OPT_DO_INSTALL_PKGS=false
-OPT_INSTALL_PKGS_WITH=""
+OPT_REPO_PATH=""              #r
+OPT_INTERACTIVE=false         #I
+OPT_DO_INSTALL_DOTFILES=false #d
+OPT_DO_MISC_STEPS=false       #m
+OPT_DO_INSTALL_PKGS=false     #p
+OPT_INSTALL_PKGS_WITH=""      #(also p)
 
 OPTIND=1 # (A POSIX variable) reset in case getopts has been used previously in the shell
 
