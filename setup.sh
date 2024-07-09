@@ -106,10 +106,10 @@ if [ $DO_INSTALL_PKGS = true ]; then
 else
   echo "-----------------------------------------------------"
   log_primary "Skipping package install."
-  log_secondary "(Enable this step with the -p flag. Disable with -P.)"
+  log_secondary "(Enable this step with the -p flag.)"
   log_secondary "(The -p flag expects an argument: the package manager to use.)"
-  log_secondary "(Set -p to \"brew\" to use homebrew.)"
-  log_secondary "(Set -p to \"apt+flatpak+snap\" to use APT, Flatpak, and Snap.)"
+  log_secondary "(Set -p to \"brew\" to use Homebrew.)"
+  log_secondary "(Set -p to \"pkglist\" to use Pkglist.)"
 fi
 
 #
@@ -121,7 +121,7 @@ if [ $DO_INSTALL_DOTFILES = true ]; then
 else
   echo "-----------------------------------------------------"
   log_primary "Skipping dotfiles."
-  log_secondary "(Enable this step with the -d flag. Disable with -D.)"
+  log_secondary "(Enable this step with the -d flag.)"
 fi
 
 #
@@ -134,7 +134,7 @@ if [ $DO_MISC_STEPS = true ]; then
 else
   echo "-----------------------------------------------------"
   log_secondary "Skipping misc steps."
-  log_secondary "(Enable this step with the -m flag. Disable with -M.)"
+  log_secondary "(Enable this step with the -m flag.)"
 fi
 
 echo "-----------------------------------------------------"
