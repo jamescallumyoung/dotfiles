@@ -31,6 +31,7 @@ log_secondary "Using stow directory $STOW_DIR_PATH"
 stow --dir=$STOW_DIR_PATH --target=$HOME fish
 stow --dir=$STOW_DIR_PATH --target=$HOME git
 stow --dir=$STOW_DIR_PATH --target=$HOME nvim
+stow --dir=$STOW_DIR_PATH --target=$HOME ssh
 stow --dir=$STOW_DIR_PATH --target=$HOME zsh
 
 log_primary "...done!"
