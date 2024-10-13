@@ -36,8 +36,7 @@ brew "coreutils"
 brew "ed"
 brew "findutils"
 brew "gawk"
-brew "grep"
-# n.b. we don't actually use GNU grep, as we use ugrep instead.
+brew "grep" # we don't actually use GNU grep, as we use ugrep instead. But we install it for scripts to use.
 brew "gnu-sed"
 brew "gnu-tar"
 brew "make"
@@ -53,8 +52,6 @@ brew "antigen"
 
 brew "bash"     # it's worth updating bash as well
 brew "fish"     # we have some fish scripts we still use
-
-# See ./unix-utils.brewfile for updated base linux/bash tools
 
 
 
@@ -85,12 +82,13 @@ brew "hub"
 # (language)
 #
 
-tap "homebrew/cask-versions"# tap needed to access non-latest versions of temurin
 brew "jenv"                 # java virtual environment manager; allows switching java versions
+# for up-to-date EOL dates for Java Temurin releases see: https://endoflife.date/eclipse-temurin
 cask "temurin"              # latest Eclipse Temurin version
-cask "temurin17"            # java 17 - LTS until September 2027
-cask "temurin11"            # java 11 - LTS until September 2024
-
+cask "temurin@21"           # java 21 - LTS until 31 Dec 2029
+cask "temurin@17"           # java 17 - LTS until 31 Oct 2027
+cask "temurin@11"           # java 11 - LTS until 31 Oct 2027
+cask "temurin@8"            # java  8 - LTS until 30 Nov 2026
 
 
 #
