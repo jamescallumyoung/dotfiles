@@ -48,7 +48,7 @@ brew "make"
 #
 
 brew "zsh"
-brew "antigen"
+brew "antidote"
 
 brew "bash"     # it's worth updating bash as well
 brew "fish"     # we have some fish scripts we still use
