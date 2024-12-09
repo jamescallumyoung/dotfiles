@@ -5,6 +5,8 @@
 # antidote is a package manageer for zsh plugins
 #
 if [[ $(uname) == "Darwin" ]]; then # macOS
+    SPACESHIP_DIR_TRUNC_REPO=false # config for spaceship
+    SPACESHIP_GCLOUD_SHOW=false
     NVM_COMPLETION=true # config vars for zsh-nvm
     NVM_LAZY_LOAD=true
     source $(brew --prefix)/opt/antidote/share/antidote/antidote.zsh
