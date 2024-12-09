@@ -73,8 +73,8 @@ brew "hub"
 # (language)
 #
 
-# nothing; we install node with antigen -> zsh-nvm -> nvm -> node
-# brew "node" # we also install node directly, in the system setup section
+# brew "node" # we already installed node, in the system setup section
+
 
 
 #
@@ -91,6 +91,7 @@ cask "temurin@11"           # java 11 - LTS until 31 Oct 2027
 cask "temurin@8"            # java  8 - LTS until 30 Nov 2026
 
 
+
 #
 # DOCKER, K8S
 #
@@ -99,11 +100,6 @@ brew "derailed/k9s/k9s"     # in-terminal k8s dashboard
 brew "helm"
 brew "kubernetes-cli"       # kubectl, etc.
 cask "docker"
-
-# TEMP DISABLED!
-# for ARM macOS, you need to install the dev preview from:
-# https://www.virtualbox.org/wiki/Download_Old_Builds_7_0
-##cask "virtualbox"           # virtualbox's hypervisor is used by docker
 
 
 
@@ -157,4 +153,3 @@ cask "transmission"
 cask "vlc"
 cask "whatsapp"
 cask "zoom"
-
