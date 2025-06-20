@@ -10,22 +10,41 @@ export PAGER=less
 
 
 #
+# OS_PM
+#
+
+macos_use_homebrew=1
+linux_use_homebrew=1
+source ~/.config/zsh/set-os-pm.zsh
+set_os_pm
+
+
+#
 # brew
 #
 
-if [[ $(uname) == "Darwin" && $(uname -m) == 'arm64' ]]; then # macOS -- apple silicon
-    eval $(/opt/homebrew/bin/brew shellenv)
-
-elif [[ $(uname) == "Darwin" && $(uname -m) == 'x86_64' ]]; then # macOS -- intel
-    eval $(/usr/local/bin/brew shellenv)
-
-elif command -v apt > /dev/null; then # debian linux
-    eval $(/home/linuxbrew/.linuxbrew shellenv)
-
-else
-    echo 'Unknown OS!'
-    echo "COULDN'T LOAD HOMEBREW"
-fi
+case $OS_PM in
+"Darwin__homebrew")
+    case "$(uname -m)" in
+    "arm64")
+        # macOS -- apple silicon
+        eval $(/opt/homebrew/bin/brew shellenv) ;;
+    "x86_64")
+        # macOS -- intel
+        eval $(/usr/local/bin/brew shellenv) ;;
+    *)
+        echo "Unknown MacOS architecture. Homebrew could not be set up. System may not behave as expected." ;;
+    esac
+    ;;
+"Linux__apt,homebrew" |
+"Linux__unknown,homebrew")
+    eval $(/home/linuxbrew/.linuxbrew shellenv) ;;
+# add additional "Linux__" values here as they are added to OS_PM
+*)
+    echo "No valid homebrew configs available for OS_PM=${OS_PM}. Homebrew could not be set up. System may not behave as expected."
+    echo "Note: If this is a Linux OS, it may be trivial to enable homebrew support. See ~/.zshenv"
+    ;;
+esac
 
 
 #
@@ -33,7 +52,6 @@ fi
 # (note: no longer requires _evalcache to be in the path first)
 #
 
-if [[ $(uname) == "Darwin" ]]; then # macOS
+if [[ $OS_PM == "Darwin__homebrew" ]]; then
     source ~/.config/zsh/setup-macos-gnu-utils.zsh
 fi
-
