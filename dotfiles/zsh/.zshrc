@@ -25,6 +25,8 @@ alias ll="ls -lhF"
 alias l="ls -1"
 alias la="l -a"
 alias cl="clear"
+alias ..="cd .."
+alias ...="cd ../.."
 
 # Aliases for Vim
 alias vi="nvim"
