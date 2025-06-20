@@ -55,25 +55,10 @@ export GOPATH="$HOME/.gopath"   # my code -- usually ~/go but I prefer to use a 
 export GOROOT="$HOME/.go"       # golang source code
 path+=("$GOPATH/bin")           # my code, built and executable
 
-# for yarn
-# (yarn global path set in .yarnrc)
-path+=("$HOME/.yarn/bin")
-
 # add shortcut commands for jetbrains toolbox apps
 # for liquibase
 if [[ $(uname) == "Darwin" ]]; then # macOS
     path+=("$HOME/Library/Application Support/JetBrains/Toolbox/scripts")
-fi
-
-# for node - fnm
-if [ $(uname) = "Linux" ]; then
-    path+=("$XDG_DATA_HOME/fnm")
-    eval "$(fnm env --use-on-cd --version-file-strategy recursive --corepack-enabled --resolve-engines --shell zsh)"
-elif [ $(uname) = "Darwin" ]; then
-    # fnm installed with brew in macOS. brew paths should already be in PATH
-    eval "$(fnm env --use-on-cd --version-file-strategy recursive --corepack-enabled --resolve-engines --shell zsh)"
-else
-    echo "No configuration provided for OS $(uname). fnm could not be set up.."
 fi
 
 
