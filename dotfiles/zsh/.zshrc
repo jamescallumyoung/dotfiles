@@ -4,15 +4,16 @@
 # set up antidote, a modern reimplementation of antigen/antibody
 # antidote is a package manageer for zsh plugins
 #
-if [[ $(uname) == "Darwin" ]]; then # macOS
+case $OS_PM in
+"Darwin__homebrew")
     SPACESHIP_DIR_TRUNC_REPO=false # config for spaceship
     SPACESHIP_GCLOUD_SHOW=false
     source $(brew --prefix)/opt/antidote/share/antidote/antidote.zsh
     antidote load # loads from ~/.zsh_plugins.txt
-else
-    echo "Unknown OS!"
-    echo "Antidote (zsh Antigen clone) not loaded!"
-fi
+    ;;
+*)
+    echo "Antidote (zsh Antigen clone) not loaded! No configs found for OS_PM=${OS_PM}. System may not behave as expected." ;;
+esac
 
 # terminal options; disable beeping
 unsetopt beep
