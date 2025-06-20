@@ -46,18 +46,12 @@ export NVM_CURRENT_ON_START=$(which node)
 # paths
 #
 
-# for liquibase
-if [[ $(uname) == "Darwin" ]]; then # macOS
-    LIQUIBASE_HOME="$(brew --prefix)/opt/liquibase/libexec"
-fi
-
 # for golang
 export GOPATH="$HOME/.gopath"   # my code -- usually ~/go but I prefer to use a hidden dir
 export GOROOT="$HOME/.go"       # golang source code
 path+=("$GOPATH/bin")           # my code, built and executable
 
 # add shortcut commands for jetbrains toolbox apps
-# for liquibase
 if [[ $(uname) == "Darwin" ]]; then # macOS
     path+=("$HOME/Library/Application Support/JetBrains/Toolbox/scripts")
 fi

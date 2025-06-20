@@ -70,6 +70,16 @@ esac
 
 
 #
+# Liquibase
+#
+
+case $OS_PM in
+"Darwin__homebrew")
+    LIQUIBASE_HOME="$(brew --prefix)/opt/liquibase/libexec" ;;
+esac
+
+
+#
 # macOS -- Setting up GNU utils
 # (note: no longer requires _evalcache to be in the path first)
 #
