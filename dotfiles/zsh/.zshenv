@@ -36,8 +36,7 @@ case $OS_PM in
         echo "Unknown MacOS architecture. Homebrew could not be set up. System may not behave as expected." ;;
     esac
     ;;
-"Linux__apt,homebrew" |
-"Linux__unknown,homebrew")
+"Linux__apt,homebrew" | "Linux__unknown,homebrew")
     eval $(/home/linuxbrew/.linuxbrew shellenv) ;;
 # add additional "Linux__" values here as they are added to OS_PM
 *)
@@ -57,10 +56,7 @@ case $OS_PM in
     # fnm is installed with brew if brew is available. brew paths should already be in PATH
     eval "$(fnm env --use-on-cd --version-file-strategy recursive --corepack-enabled --resolve-engines --shell zsh)"
     ;;
-"Linux__apt" |
-"Linux__apt,homebrew" |
-"Linux__unknown" |
-"Linux__unknown,homebrew")
+"Linux__apt" | "Linux__apt,homebrew" | "Linux__unknown" | "Linux__unknown,homebrew")
     path+=("$XDG_DATA_HOME/fnm")
     eval "$(fnm env --use-on-cd --version-file-strategy recursive --corepack-enabled --resolve-engines --shell zsh)"
     ;;
