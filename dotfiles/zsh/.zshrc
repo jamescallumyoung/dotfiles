@@ -7,8 +7,6 @@
 if [[ $(uname) == "Darwin" ]]; then # macOS
     SPACESHIP_DIR_TRUNC_REPO=false # config for spaceship
     SPACESHIP_GCLOUD_SHOW=false
-    NVM_COMPLETION=true # config vars for zsh-nvm
-    NVM_LAZY_LOAD=true
     source $(brew --prefix)/opt/antidote/share/antidote/antidote.zsh
     antidote load # loads from ~/.zsh_plugins.txt
 else
@@ -40,7 +38,7 @@ alias k="kubectl"
 tre() { touch "/tmp/tre_aliases_$USER" && command tre "$@" -e && source "/tmp/tre_aliases_$USER" 2>/dev/null; }
 
 # we store the current version of node so that coc.nvim can find it (coc.nvim cannot call nvm directly)
-export NVM_CURRENT_ON_START=$(nvm which current)
+export NVM_CURRENT_ON_START=$(which node)
 
 
 #
@@ -65,6 +63,17 @@ path+=("$HOME/.yarn/bin")
 # for liquibase
 if [[ $(uname) == "Darwin" ]]; then # macOS
     path+=("$HOME/Library/Application Support/JetBrains/Toolbox/scripts")
+fi
+
+# for node - fnm
+if [ $(uname) = "Linux" ]; then
+    path+=("$XDG_DATA_HOME/fnm")
+    eval "$(fnm env --use-on-cd --version-file-strategy recursive --corepack-enabled --resolve-engines --shell zsh)"
+elif [ $(uname) = "Darwin" ]; then
+    # fnm installed with brew in macOS. brew paths should already be in PATH
+    eval "$(fnm env --use-on-cd --version-file-strategy recursive --corepack-enabled --resolve-engines --shell zsh)"
+else
+    echo "No configuration provided for OS $(uname). fnm could not be set up.."
 fi
 
 

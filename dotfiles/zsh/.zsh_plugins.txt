@@ -53,10 +53,6 @@ belak/zsh-utils path:editor
 belak/zsh-utils path:history
 belak/zsh-utils path:utility
 rupa/z
-# export NVM_LAZY_LOAD=true
-# export NVM_COMPLETION=true
-# NVM_ configs must be set in .zshrc before antidote is called
-lukechilds/zsh-nvm
 
 mroth/evalcache
 
