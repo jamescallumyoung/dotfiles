@@ -54,10 +54,6 @@ export NVM_CURRENT_ON_START=$(which node)
 
 path+=("/usr/local/bin")
 
-# for golang
-export GOPATH="$HOME/.gopath"   # my code -- usually ~/go but I prefer to use a hidden dir
-export GOROOT="$HOME/.go"       # golang source code
-path+=("$GOPATH/bin")           # my code, built and executable
 
 # add shortcut commands for jetbrains toolbox apps
 if [[ $(uname) == "Darwin" ]]; then # macOS
