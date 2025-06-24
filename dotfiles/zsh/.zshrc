@@ -32,11 +32,15 @@ alias ...="cd ../.."
 alias vi="nvim"
 alias vim="nvim"
 
+# Aliases for Kubernetes
+alias k="kubectl"
+alias kx="kubectx"
+alias kns="kubens"
+
 # Other Aliases
 alias webs="webstorm ./"
 alias idea="idea ./"
 alias tf="terraform"
-alias k="kubectl"
 
 tre() { touch "/tmp/tre_aliases_$USER" && command tre "$@" -e && source "/tmp/tre_aliases_$USER" 2>/dev/null; }
 
