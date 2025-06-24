@@ -3,14 +3,10 @@
 
 
 # plugins to check out:
-# olets/zsh-abbr    kind:defer
-# mattmc3/zfunctions
-# zsh-users/zsh-autosuggestions
-# zdharma-continuum/fast-syntax-highlighting kind:defer
-# zsh-users/zsh-syntax-highlighting
-# zsh-users/zsh-history-substring-search
 # ohmyzsh/ohmyzsh path:plugins/colored-man-pages
 # ohmyzsh/ohmyzsh path:plugins/magic-enter
+# ohmyzsh/ohmyzsh path:plugins/extract adds an `extract` command that unarchives many archive formats
+# romkatv/zsh-bench # benchmarking for checking zsh startup times
 
 
 #
@@ -36,6 +32,14 @@ mattmc3/ez-compinit
 # massive collection of additional completion definitions for Zsh
 zsh-users/zsh-completions kind:fpath path:src
 
+# replace zsh's default completion selection menu with fzf
+# toggle on/off with enable-/disable-fzf-tab
+aloxaf/fzf-tab
+
+# Add additional completion styles, and enable one by default
+# post:... selects which to enable by default
+belak/zsh-utils path:completion/functions kind:autoload post:compstyle_zshzoo_setup
+
 
 #
 # prompts
@@ -49,16 +53,37 @@ spaceship-prompt/spaceship-prompt
 
 
 #
-# all other plugins
+# fish-like utilities
+#
+
+# in-terminal syntax highlighting
+zdharma-continuum/fast-syntax-highlighting kind:defer
+
+# adds fish-like auto-suggestions when typing
+zsh-users/zsh-autosuggestions
+
+# adds fish-like up/down history searching
+# zsh-users/zsh-history-substring-search
+# todo: investigate
+
+
+#
+# everything else
 #
 
 # override and fill in the gaps of the default zsh keybinds
 belak/zsh-utils path:editor
 
 # load and initilize the built-in zsh history system, with some QoL tweaks
-belak/zsh-utils path:history
+# belak/zsh-utils path:history
+# todo: investigate
+
+# replaces zsh's built-in ctrl-r history search with a fzf-powered one
+# joshskidmore/zsh-fzf-history-search
+# todo: investigate
 
 # common shell utilities, aimed at making cross platform work less painful
+# adds `o`, `pbcopy`, and `pbpaste`, among others
 belak/zsh-utils path:utility
 
 # add the `z` utility
