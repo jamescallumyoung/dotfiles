@@ -9,6 +9,10 @@ export GIT_EDITOR="$VISUAL"
 export PAGER=less
 
 
+# Ensure path arrays do not contain duplicates.
+typeset -gU path fpath
+
+
 #
 # OS_PM
 #
