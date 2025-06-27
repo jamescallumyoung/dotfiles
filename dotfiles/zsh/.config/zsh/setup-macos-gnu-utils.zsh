@@ -7,13 +7,18 @@
 
 if [[ $(uname) == "Darwin" ]]; then
     # on macOS, use the GNU versions provided by brew
-    
-    A_GNUBINS=$(find $(brew --prefix)/opt -type d -follow -name gnubin -print)
 
-    for bindir ("$A_GNUBINS[@]"); do
+    # get the "gnubin" directories.
+    # these are created for any gnu package that would shadow a package shipped with macOS
+    s_gnubins=$(find $(brew --prefix)/opt -type d -follow -name gnubin -print)
+
+    # cast into a zsh array
+    a_gnubins=( ${=s_gnubins} )
+
+    for bindir ("$a_gnubins[@]"); do
         export path=($bindir $path) # add each dir to path. prepend so they take prio
     done
 
-    unset A_GNUBINS
+    unset s_gnubins
+    unset a_gnubins
 fi
-
