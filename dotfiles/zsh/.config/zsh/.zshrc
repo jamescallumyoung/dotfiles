@@ -9,7 +9,7 @@ case $OS_PM in
     SPACESHIP_DIR_TRUNC_REPO=false # config for spaceship
     SPACESHIP_GCLOUD_SHOW=false
     source $(brew --prefix)/opt/antidote/share/antidote/antidote.zsh
-    antidote load # loads from ~/.zsh_plugins.txt
+    antidote load # loads plugins from ${ZDOTDIR:-$HOME}/.zsh_plugins.txt
     ;;
 *)
     echo "Antidote (zsh Antigen clone) not loaded! No configs found for OS_PM=${OS_PM}. System may not behave as expected." ;;

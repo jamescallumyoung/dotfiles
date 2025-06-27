@@ -9,8 +9,26 @@ export GIT_EDITOR="$VISUAL"
 export PAGER=less
 
 
-# Ensure path arrays do not contain duplicates.
-typeset -gU path fpath
+#
+# Set directories for the XDG Base Directory Specification
+#
+# The values used are the defaults per the spec. They are explicitly set because:
+# 1) Some programs incorrectly implement the spec and do not use the default values when a variable is unset.
+# 2) Some environments (including macOS) do not define these variables by default.
+#
+# See the spec at: https://specifications.freedesktop.org/basedir-spec/latest/
+#
+
+export XDG_CONFIG_HOME="${HOME}/.config"
+export XDG_DATA_HOME="${HOME}/.local/share"
+export XDG_CACHE_HOME="${HOME}/.cache"
+
+
+#
+# Set the ZDOTDIR where zsh will look for the rest of its configs
+#
+
+export ZDOTDIR="${XDG_CONFIG_HOME:-"${HOME}/.config"}/zsh"
 
 
 #
