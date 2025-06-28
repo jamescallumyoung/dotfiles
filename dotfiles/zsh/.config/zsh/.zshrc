@@ -45,8 +45,6 @@ alias idea="idea ./"
 alias tf="terraform"
 alias f="thefuck"
 
-tre() { touch "/tmp/tre_aliases_$USER" && command tre "$@" -e && source "/tmp/tre_aliases_$USER" 2>/dev/null; }
-
 
 #
 # other commands that need setting up

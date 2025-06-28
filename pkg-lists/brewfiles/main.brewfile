@@ -3,7 +3,7 @@
 #
 
 brew "stow"     # for managing dotfiles
-brew "node"     # for running pkglist
+# we don't want "node" after the initial install, as it conflicts with "fnm"
 
 
 
@@ -18,7 +18,6 @@ brew "jq"
 brew "pick"
 brew "ripgrep"  # better search (grep, etc.)
 brew "thefuck"
-brew "tre"      # better tree, with auto-aliasing
 brew "ugrep"    # better grep, egrep, and fgrep
 brew "yq"       # jq for yaml and xml
 
@@ -69,7 +68,7 @@ brew "hub"
 
 
 #
-# NODE, NPM, YARN
+# NODE, NPM, etc.
 # (language)
 #
 
@@ -82,13 +81,13 @@ brew "hub"
 # (language)
 #
 
-brew "jenv"                 # java virtual environment manager; allows switching java versions
+#brew "jenv"                 # java virtual environment manager; allows switching java versions
 # for up-to-date EOL dates for Java Temurin releases see: https://endoflife.date/eclipse-temurin
-cask "temurin"              # latest Eclipse Temurin version
-cask "temurin@21"           # java 21 - LTS until 31 Dec 2029
-cask "temurin@17"           # java 17 - LTS until 31 Oct 2027
-cask "temurin@11"           # java 11 - LTS until 31 Oct 2027
-cask "temurin@8"            # java  8 - LTS until 30 Nov 2026
+#cask "temurin"              # latest Eclipse Temurin version
+#cask "temurin@21"           # java 21 - LTS until 31 Dec 2029
+#cask "temurin@17"           # java 17 - LTS until 31 Oct 2027
+#cask "temurin@11"           # java 11 - LTS until 31 Oct 2027
+#cask "temurin@8"            # java  8 - LTS until 30 Nov 2026
 
 
 
@@ -108,9 +107,9 @@ cask "docker"
 #
 
 # DB IDEs
-cask "azure-data-studio"    # for MS SQL
+#cask "azure-data-studio"    # for MS SQL
 cask "redisinsight"         # for redis
-cask "sequel-pro"           # for SQL (Postgress)
+#cask "sequel-pro"           # for SQL (Postgress)
 
 # dev IDEs
 cask "jetbrains-toolbox"    # install Intellij, Webstorm, etc.
@@ -136,7 +135,7 @@ cask "rocket"               # emoji tool for macOS
 # OTHER COMMON APPS, etc.
 #
 
-brew "liquibase"            # db migration tool; used for work
+#brew "liquibase"            # db migration tool; used for work
 cask "1password-cli"
 cask "discord"
 cask "firefox"
@@ -152,4 +151,3 @@ cask "spotify"
 cask "transmission"
 cask "vlc"
 cask "whatsapp"
-cask "zoom"
