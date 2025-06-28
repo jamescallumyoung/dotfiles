@@ -38,8 +38,8 @@ export XDG_CACHE_HOME="${HOME}/.cache"
 # $HOME/.local/bin is added to PATH in .zprofile to avoid macOS overwriting it (see comment in .zprofile)
 
 # other dirs
-export $XDG_DATA_DIRS="${XDG_DATA_DIRS:-"/usr/local/share/:/usr/share/"}"
-export $XDG_CONFIG_DIRS="${XDG_CONFIG_DIRS:-"/etc/xdg"}"
+export XDG_DATA_DIRS=${XDG_DATA_DIRS:-"/usr/local/share/:/usr/share/"}
+export XDG_CONFIG_DIRS=${XDG_CONFIG_DIRS:-"/etc/xdg"}
 # XDG_RUNTIME_DIR is complex is not set here
 
 
