@@ -14,8 +14,8 @@ return {
         "ryanoasis/vim-devicons",           -- Devicons for use by nerd tree
         lazy=false,
     },
-    {
-        "neoclide/coc.nvim",                -- Code completion
-    },
+--     {
+--         "neoclide/coc.nvim",                -- Code completion
+--     },
 }
 
