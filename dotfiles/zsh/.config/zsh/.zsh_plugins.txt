@@ -49,7 +49,7 @@ belak/zsh-utils path:completion/functions kind:autoload post:compstyle_zshzoo_se
 belak/zsh-utils path:prompt
 
 # add the spaceship prompt
-spaceship-prompt/spaceship-prompt
+romkatv/powerlevel10k
 
 
 #
