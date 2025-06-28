@@ -29,9 +29,18 @@ export PAGER=less
 # See the spec at: https://specifications.freedesktop.org/basedir-spec/latest/
 #
 
-export XDG_CONFIG_HOME="${HOME}/.config"
+# home dirs
 export XDG_DATA_HOME="${HOME}/.local/share"
+export XDG_CONFIG_HOME="${HOME}/.config"
+export XDG_STATE_HOME="${HOME}/.local/state"
 export XDG_CACHE_HOME="${HOME}/.cache"
+
+# $HOME/.local/bin is added to PATH in .zprofile to avoid macOS overwriting it (see comment in .zprofile)
+
+# other dirs
+export $XDG_DATA_DIRS="${XDG_DATA_DIRS:-"/usr/local/share/:/usr/share/"}"
+export $XDG_CONFIG_DIRS="${XDG_CONFIG_DIRS:-"/etc/xdg"}"
+# XDG_RUNTIME_DIR is complex is not set here
 
 
 #
