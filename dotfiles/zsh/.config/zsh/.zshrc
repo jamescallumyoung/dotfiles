@@ -60,7 +60,8 @@ alias f="thefuck"
 #
 
 # thefuck
-_evalcache thefuck --alias
+# NOTICE: disabled due to a bug in thefuck which stops it working at all. thefuck may be abandoned :(
+# _evalcache thefuck --alias
 
 # hub (GitHub cli)
 _evalcache hub alias -s
