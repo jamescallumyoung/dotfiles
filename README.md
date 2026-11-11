@@ -1,17 +1,14 @@
 # dotfiles
 
 Dotfiles are the files used to configure a user environment.
-They're highly specific to the user. These are [@jamescallumyoung](https://github.com/jamescallumyoung)'s.
+These are [@jamescallumyoung](https://github.com/jamescallumyoung)'s.
 
-This repo provides a `setup.sh` script that can do three things:
+This repo provides:
 
-- install dotfiles
-- install packages with Homebrew or Flatpak
-- perform miscellaneous actions to complete the setup
+1) a script to install dotfiles
+2) a script to change the user's default shell
 
----
-
-## Installing Dotfiles
+### Installing Dotfiles
 
 GNU Stow is used to manage the dotfiles in this repo.
 It links them into their expected locations in the system, allowing the source files to remain in the Git repo so they can be version controlled.
@@ -26,44 +23,36 @@ This repo is structured so that:
 
 You can learn more about what these terms mean in the [the GNU Stow docs](https://www.gnu.org/software/stow/manual/stow.html#Terminology).
 
-Stow is invoked by the `setup.sh` script's "install dotfiles" step.
+Stow is invoked by the `install-dotfiles.sh` script.
 
+### Other Functionality
 
-## Installing Packages
+I use both `zsh` and `fish` at times. To make changing the default shell easier, use `change-shell.sh`.
 
-This repo contains a process for installing packages.
-Packages are specified in a handful of files, and installed by `setup.sh`.
-
-The following package managers are supported:
-
-- [Homebrew](https://brew.sh/) - "macOS's missing package manager"
-- [Flatpak](https://flatpak.org) - "The future of apps on Linux"
-
-The packages to install are listed in files within `package-lists/`.
-
----
-
-## Installation Guide
-
-The guide below outlines some manual steps that need to be done, followed by a `setup.sh` script that finishes the process.
-
-Note: This guide was created to set up a new macOS device. Linux and Windows are still experimental.
+## Usage Guide
 
 ### Prerequisites
 
-Before `setup.sh` can be run, there are some prerequisites that need to be met:
+**Git**
 
-- Git must be installed. See: [docs/installing-git.md](./docs/installing-git.md).
+Git must be installed.
+Many Linux distros, and macOS, ship a version of Git that is good enough for our purposes.
+You may want to install a more modern version later.
 
-If running the "install packages" step:
+To detect if Git is installed, run `which git`.
 
-- Package managers need to be available. See: [docs/installing-package-managers.md](./docs/installing-package-managers.md).
+**GNU Stow**
 
-If running the "install dotfiles" step:
+GNU Stow must be installed to use the `install-dotfiles.sh` script.
 
-- GNU Stow must be installed. See: [docs/installing-gnu-stow.md](./docs/installing-gnu-stow.md).
+To detect if GNU Stow is installed, run `which stow`.
 
-If `fzf` is installed, the setup script will use it. This provides an improved user experience and is strongly recommended.
+**fzf**
+
+If fzf is installed, both scripts will use it. This provides an improved user experience and is strongly recommended.
+If fzf is not installed, scripts will degrade to a fallback mechanism.
+
+To detect if fzf is installed, run `which fzf`.
 
 ### 1 - Clone this repo
 
@@ -78,31 +67,25 @@ git clone git@github.com:jamescallumyoung/dotfiles.git $HOME/.dotfilesrepo
 git clone https://github.com/jamescallumyoung/dotfiles.git $HOME/.dotfilesrepo
 ```
 
-### 2 - Run the setup script
+### 2 - Run the scripts
 
-The rest of the setup process is automatic.
-Just run the setup script, and provide the required `-r` option:
+Install dotfiles with:
 
 ```shell
 cd $HOME/.dotfilesrepo
-
-chmod +x setup.sh
-chmod +x ./scripts/*
-
-./setup.sh
+chmod +x ./scripts/install-dotfiles.sh
+./scripts/install-dotfiles.sh
 ```
 
-The script requires some options to be selected and running without arguments will prompt the user for each option.
-The script also supports providing options as arguments.
+Change the default shell with:
 
-**Options:**
+```shell
+cd $HOME/.dotfilesrepo
+chmod +x ./scripts/change-shell.sh
+./scripts/change-shell.sh
+```
 
-- `-i` which package manager to use. One of [ "homebrew", "flatpak" ].
-- `-d` performs a dry run for the "install packages" step
+### 3 - Additional manual steps
 
-Note: Your password may be required at multiple stages. Some packages may need options to be selected (esp. when using Flatpak). This is not a script you can run unattended.
-
-### Additional manual steps
-
-After running `setup.sh`, there are additional manual steps you may want to take.
+There are additional manual steps you may want to take.
 These are defined in [docs/post-setup-manual-steps.md](./docs/post-setup-manual-steps.md).
