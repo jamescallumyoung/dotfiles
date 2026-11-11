@@ -24,16 +24,16 @@ log_primary "[change-shell.sh] Start"
 shell_name="$(printf 'zsh\nfish\n' | select_line "Select target shell")"
 
 if [ -z "$shell_name" ]; then
-    log_secondary "No shell selected, aborting."
+    log_secondary "[change-shell.sh] No shell selected, aborting."
     exit 0
 fi
 
-log_secondary "Changing default shell to $shell_name"
+log_secondary "[change-shell.sh] Changing default shell to $shell_name"
 
 shell_path="$(command -v "$shell_name")"
 
 if ! grep -qxF "$shell_path" /etc/shells; then
-    log_secondary "Adding $shell_path to /etc/shells"
+    log_secondary "[change-shell.sh] Adding $shell_path to /etc/shells"
     sudo sh -c "echo '$shell_path' >> /etc/shells"
 fi
 
