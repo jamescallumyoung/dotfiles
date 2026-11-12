@@ -3,12 +3,9 @@
 Dotfiles are the files used to configure a user environment.
 These are [@jamescallumyoung](https://github.com/jamescallumyoung)'s.
 
-This repo provides:
+This repo provides my dotfiles and a script to install them using GNU Stow.
 
-1) a script to install dotfiles
-2) a script to change the user's default shell
-
-### Installing Dotfiles
+### GNU Stow
 
 GNU Stow is used to manage the dotfiles in this repo.
 It links them into their expected locations in the system, allowing the source files to remain in the Git repo so they can be version controlled.
@@ -24,10 +21,6 @@ This repo is structured so that:
 You can learn more about what these terms mean in the [the GNU Stow docs](https://www.gnu.org/software/stow/manual/stow.html#Terminology).
 
 Stow is invoked by the `install-dotfiles.sh` script.
-
-### Other Functionality
-
-I use both `zsh` and `fish` at times. To make changing the default shell easier, use `change-shell.sh`.
 
 ## Usage Guide
 
@@ -49,8 +42,9 @@ To detect if GNU Stow is installed, run `which stow`.
 
 **fzf**
 
-If fzf is installed, both scripts will use it. This provides an improved user experience and is strongly recommended.
-If fzf is not installed, scripts will degrade to a fallback mechanism.
+If fzf is installed, the installer script will use it.
+This provides an improved user experience and is strongly recommended.
+If fzf is not installed, the script will degrade to a fallback mechanism.
 
 To detect if fzf is installed, run `which fzf`.
 
@@ -67,25 +61,19 @@ git clone git@github.com:jamescallumyoung/dotfiles.git $HOME/.dotfilesrepo
 git clone https://github.com/jamescallumyoung/dotfiles.git $HOME/.dotfilesrepo
 ```
 
-### 2 - Run the scripts
-
-Install dotfiles with:
+### 2 - Run the installer script
 
 ```shell
-cd $HOME/.dotfilesrepo
-chmod +x ./scripts/install-dotfiles.sh
-./scripts/install-dotfiles.sh
-```
-
-Change the default shell with:
-
-```shell
-cd $HOME/.dotfilesrepo
-chmod +x ./scripts/change-shell.sh
-./scripts/change-shell.sh
+sh $HOME/.dotfilesrepo/scripts/install-dotfiles.sh
 ```
 
 ### 3 - Additional manual steps
 
 There are additional manual steps you may want to take.
 These are defined in [docs/post-setup-manual-steps.md](./docs/post-setup-manual-steps.md).
+
+> ## 🖖 Notice
+> This repo was forked from my previous dotfiles, with a squashed history.
+>
+> A previous version of these dotfiles handled package installation and various scripts.
+> That functionality has been moved to [my setup repo](https://github.com/jamescallumyoung/setup).
