@@ -3,9 +3,17 @@ if status is-interactive
     abbr -a cl clear
     abbr -a la ls -a
     abbr -a ll ls -lahF
-    abbr -a ll ls -lahF
     abbr -a .. cd ..
     abbr -a ... cd ../..
+
+    # for grep
+    if command -q ugrep
+        alias grep 'ugrep -G'   # needs `-G` to be 100% compatible with GNU grep
+        alias egrep 'ugrep -E'
+        alias fgrep 'ugrep -F'
+        alias zgrep 'ugrep -zG' # also searches compressed files and archives
+        abbr -a uq ug -Q        # interactive TUI
+    end
 
     # for Kubernetes
     if command -q kubectl
