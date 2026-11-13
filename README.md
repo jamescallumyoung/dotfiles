@@ -40,14 +40,6 @@ GNU Stow must be installed to use the `install-dotfiles.sh` script.
 
 To detect if GNU Stow is installed, run `which stow`.
 
-**fzf**
-
-If fzf is installed, the installer script will use it.
-This provides an improved user experience and is strongly recommended.
-If fzf is not installed, the script will degrade to a fallback mechanism.
-
-To detect if fzf is installed, run `which fzf`.
-
 ### 1 - Clone this repo
 
 Clone this repo, so we can run the setup script.
